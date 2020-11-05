@@ -1,16 +1,13 @@
-# thank_book
+# Thank Book
+ဒါကတော့ Thank Book ကို Flutter နဲ့ ပြန်ရေးထားတာပါ။
+Flutter လည်း ဖတ်ရင်း၊ App လည်း လူလူသူသူဖြစ်အောင်လုပ်ရင်းပေါ့ဗျာ။ 
+See you on App Store :D
+ 
+#### Day-1 2020-11-05
+ဘာတွေ ပြီးလဲ?
+- Named Route ရပြီ
+- Data Model : ThankNote
+- MainListView 
+- Fab->onPressed() to Thank New Form
+- New Form -> Form Validation and Form Data using state
 
-Thank book
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
