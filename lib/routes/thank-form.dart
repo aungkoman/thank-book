@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:thank_book/data/thank-note-db.dart';
+import 'package:thank_book/data/thank-note.dart';
 
 class ThankForm extends StatefulWidget {
   static const String routeName = "/thank-form";
@@ -10,6 +12,7 @@ class ThankForm extends StatefulWidget {
 class _ThankFormState extends State<ThankForm> {
   final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> personMap = {
+    'id' : null,
     'person' : '',
     'description' : '',
     'location' : ''
@@ -111,13 +114,29 @@ class _ThankFormState extends State<ThankForm> {
                       ),
                     ),
                     ElevatedButton(
-                        onPressed: (){
+                        onPressed: () async {
                           if(_formKey.currentState.validate()){
                             print("form is validated");
                             Scaffold
                                 .of(context)
                                 .showSnackBar(SnackBar(content: Text('Form Data ')));
-                            Navigator.pop(context);
+                            //  add to database
+
+
+
+                            // database class instance
+                            ThankNoteDb thankNoteDb = ThankNoteDb();
+                            // omit id to get auto increment
+                            // data class instance
+                            ThankNote thankNote = ThankNote(
+                              person: personMap['person'],
+                              description: personMap['description'],
+                              location: personMap['location']
+                            );
+                            // insert data to database
+                            thankNote = await thankNoteDb.insertThankNote(thankNote);
+                            // go back
+                            Navigator.pop(context,thankNote);
                           }
                         },
                         child: Text('+ Add Thank Note')

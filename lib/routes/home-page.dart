@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thank_book/data/thank-note-db.dart';
 import 'package:thank_book/data/thank-note.dart';
 import 'package:thank_book/routes/thank-form.dart';
 
@@ -9,6 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final ThankNoteDb thankNoteDb = ThankNoteDb();
   List<ThankNote> thankNotes = [
     ThankNote(id: 1, person: "person1", description: "description1", location: "NPT"),
     ThankNote(id: 2, person: "person2", description: "description2", location: "YGN")
@@ -18,13 +21,29 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
+    print("HomePage initState");
     super.initState();
-    /* get thankNotes from db */
-    setState(() {
-      thankNotes.add(ThankNote(id: 3, person: "person init", description: "description init", location: "MDY"));
-      /* အမှန်ကတော့ အသစ် ပြင်လိုက်ရမှာ လောလောဆယ် မပြင်နိုင်သေးလို့ :D */
-    });
+    initialize();
   } // initState
+
+  Future<void> initialize() async{
+    /* get thankNotes from db */
+    print("HomePage initialize");
+    final List<ThankNote> thankNotesUpdate = await thankNoteDb.selectThankNote();
+
+    print("thankNotesUpdate.length : "+thankNotesUpdate.length.toString());
+    if(thankNotesUpdate.length != 0){
+      final thankNotesUpdateReversed = thankNotesUpdate.reversed.toList();
+      thankNotesUpdateReversed.forEach((note) {
+        print(note.toString());
+      });
+      setState(() {
+        thankNotes = thankNotesUpdateReversed;
+        // thankNotes.add(ThankNote(id: 3, person: "person init", description: "description init", location: "MDY"));
+        /* အမှန်ကတော့ အသစ် ပြင်လိုက်ရမှာ လောလောဆယ် မပြင်နိုင်သေးလို့ :D */
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +74,8 @@ class _HomePageState extends State<HomePage> {
         onPressed: (){
           print("fab onPresssed at HomePage");
           print("go to "+ThankForm.routeName);
-          Navigator.pushNamed(context, ThankForm.routeName);
+          newThankNoteRouteResult(context);
+          // Navigator.pushNamed(context, ThankForm.routeName);
           /*
           setState(() {
             // thankNotes.add(ThankNote(id: 2, person: "person2", description: "description2", location: "YGN"));
@@ -83,7 +103,7 @@ class _HomePageState extends State<HomePage> {
           return ListTile(
             leading: Icon(Icons.person,color: Colors.blueAccent,),
             title: Text(thankNotes[index].toMap()['person']),
-            subtitle: Text(thankNotes[index].toMap()['description']+ "kjs; kajsd;fkjasd;fkj;askjdf ;asjfd;kjas;dfkj ;asjfd;askjfa;skd fj;askdfj;aksjfd ;askjf; ajs;dfjas;dfj;asdjf;"),
+            subtitle: Text(thankNotes[index].toMap()['description'] + "["+thankNotes[index].toMap()['location']+"]"),
 
             trailing: IconButton(
               onPressed: (){
@@ -98,4 +118,16 @@ class _HomePageState extends State<HomePage> {
        }, // itemBuilder
     );
   }
+
+  void newThankNoteRouteResult(BuildContext context) async{
+    final result = await Navigator.pushNamed(context, ThankForm.routeName);
+    print("result is "+result.toString());
+    if(result != null){
+      thankNotes.insert(0,result);
+      setState(() {
+        thankNotes = thankNotes;
+      });
+    }
+  }
+
 }

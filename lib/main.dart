@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thank_book/routes/myapp.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized(); // sqflite  ပဲ ဖြစ်ဖြစ် thirdparty package တွေ သုံးတဲ့အခါ
   runApp(MyApp());
 }
 /*

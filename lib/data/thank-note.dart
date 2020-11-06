@@ -1,5 +1,5 @@
 class ThankNote {
-  int id;
+  int id = null;
   String person,description,location;
 
   // Constructor
@@ -16,7 +16,7 @@ class ThankNote {
 
   @override
   String toString(){
-    return 'ThankNote {id : $id , person : $person , description : $description, location : $location';
+    return 'ThankNote {id : $id , person : $person , description : $description, location : $location}';
   }
 
 }
