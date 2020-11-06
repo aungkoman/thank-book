@@ -11,6 +11,9 @@ class ThankForm extends StatefulWidget {
 
 class _ThankFormState extends State<ThankForm> {
   final _formKey = GlobalKey<FormState>();
+
+  /* get data from rounte */
+
   Map<String, dynamic> personMap = {
     'id' : null,
     'person' : '',
@@ -18,9 +21,30 @@ class _ThankFormState extends State<ThankForm> {
     'location' : ''
   };
 
+  Map<String, dynamic> initialData = {
+  'id' : null,
+  'person' : '',
+  'description' : '',
+  'location' : ''
+};
+
   // String person,description,location;
   @override
   Widget build(BuildContext context) {
+
+    final ThankNote passedThankNote = ModalRoute.of(context).settings.arguments;
+    print("ThankForm build passedThankNote "+passedThankNote.toString());
+
+    if(passedThankNote != null){
+      setState(() {
+        initialData = passedThankNote.toMap();
+        /* make sure it is first time */
+        if(initialData['id'] != personMap['id']){
+          personMap = initialData;
+        }
+      });
+      print("initialData id is "+initialData['id'].toString());
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Thank Form'),
@@ -37,6 +61,7 @@ class _ThankFormState extends State<ThankForm> {
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 20, 20, 8),
                       child: TextFormField(
+                        initialValue: (initialData != null) ? initialData['person'] : null,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(8),
                           border: OutlineInputBorder(),
@@ -62,6 +87,7 @@ class _ThankFormState extends State<ThankForm> {
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
                       child: TextFormField(
+                        initialValue: (initialData != null) ? initialData['description'] : null,
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
                         decoration: InputDecoration(
@@ -91,6 +117,7 @@ class _ThankFormState extends State<ThankForm> {
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
                       child: TextFormField(
+                        initialValue: (initialData != null) ? initialData['location'] : null,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(8),
                           border: OutlineInputBorder(),
@@ -115,11 +142,12 @@ class _ThankFormState extends State<ThankForm> {
                     ),
                     ElevatedButton(
                         onPressed: () async {
+                          print("id is "+ personMap['id'].toString());
                           if(_formKey.currentState.validate()){
                             print("form is validated");
                             Scaffold
                                 .of(context)
-                                .showSnackBar(SnackBar(content: Text('Form Data ')));
+                                .showSnackBar(SnackBar(content: Text('Form Data is validated ')));
                             //  add to database
 
 
@@ -128,12 +156,15 @@ class _ThankFormState extends State<ThankForm> {
                             ThankNoteDb thankNoteDb = ThankNoteDb();
                             // omit id to get auto increment
                             // data class instance
+
                             ThankNote thankNote = ThankNote(
+                              id: personMap['id'],
                               person: personMap['person'],
                               description: personMap['description'],
                               location: personMap['location']
                             );
                             // insert data to database
+                            print("insert or update thankNote data  is "+thankNote.toString());
                             thankNote = await thankNoteDb.insertThankNote(thankNote);
                             // go back
                             Navigator.pop(context,thankNote);

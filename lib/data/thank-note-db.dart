@@ -7,37 +7,33 @@ import 'package:thank_book/data/thank-note.dart';
 
 class ThankNoteDb{
 
+  final String databaseName = "thank_note_database.db";
+  final String tableName = 'thank_note';
+  /*
+    @id : INT PRIMARY KEY
+    @person : TEXT
+    @description : TEXT
+    @location : TEXT
+  */
 // Open the database and store the reference.
   //Future<Database> database; // Future ဆိုတဲ့အတိုင်းပဲ ဒါက ဘာမှ စောင့်နေမှာ မဟုတ်ဘူး sync ပုံစံအတိုင်းလုပ်သွားမှာ။
   ThankNoteDb(){
     print("ThankNoteDb constructor");
-    //initialize();
+    initialize();
   }
 
   void initialize() async{
     print("ThankNoteDb initialize");
-    /*
-    database = openDatabase(
-        join(await getDatabasesPath(),'thank_note_database.db'), // ဆိုရရင် url ပါပဲကွာ
-        // ဒါက database migration အတွက်၊ အောက်က Version ကိုကြည့်လို့ နဂိုဟာနဲ့ မတူတော့ဘူး ဆိုရင် onCreate ထဲကအတိုင်း migrate လုပ်သွားမယ် :D
-        onCreate: (db, version) {
-          return db.execute(
-            "CREATE TABLE thank_note(id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT)",
-          );
-        },
-        version: 1
-    );
-
-     */
   }
 
+  // return database instance
   Future<Database> database() async {
     return openDatabase(
-        join(await getDatabasesPath(),'thank_note_database.db'), // ဆိုရရင် url ပါပဲကွာ
+        join(await getDatabasesPath(),databaseName), // ဆိုရရင် url ပါပဲကွာ
         // ဒါက database migration အတွက်၊ အောက်က Version ကိုကြည့်လို့ နဂိုဟာနဲ့ မတူတော့ဘူး ဆိုရင် onCreate ထဲကအတိုင်း migrate လုပ်သွားမယ် :D
         onCreate: (db, version) {
           return db.execute(
-            "CREATE TABLE thank_note(id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT)",
+            "CREATE TABLE $tableName (id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT)",
           );
         },
         version: 1
@@ -47,12 +43,12 @@ class ThankNoteDb{
   Future<ThankNote> insertThankNote(ThankNote thankNote) async{
     final Database db = await database(); // အခုမှ instance ရအောင် လုပ်မှာ :D အဲ့သလိုမျိုးလား နမူနာမှာက function တစ်ခုကို လုပ်ပြထားတာဆိုတော့ကာ
     int insertedId = await db.insert(
-      'thank_note', // table name
+        tableName, // table name
       thankNote.toMap(), // map နဲ့ လက်ခံတယ် ဆိုလိုချင်တာက key : value pair တွေ ပဲ ထည့်ပေးရမယ်။ အခု case မှာတော့ class ကို map ပြောင်းပေးထားတယ်
       conflictAlgorithm:  ConflictAlgorithm.replace // ထည့်ရမလား ထုတ်ရမလား ပဋိပက္ခတွေ ဖြစ်ရင် ဘယ်လိုလုပ်ကြမလဲ? အစားသာ ထိုးလိုက်ပါ
     );
     thankNote.id = insertedId; // modify class member
-    print("insertThankNote insertedId is "+insertedId.toString());
+    print("insertThankNote insertedId is "+insertedId.toString() +" : "+thankNote.toString());
     return thankNote;
     // TDL
     /* အမှန်ကတော့ ဒီနေရာမှာ try catch နဲ့ error handling လုပ်ပြီး Future မှာ တကယ့် data ရလာဉီးမှာလား ၊ မရနိုင်တော့ဘူးလား ဆုံးဖြတ်ပေးရမယ်။ */
@@ -72,6 +68,39 @@ class ThankNoteDb{
         location: thankNotes[i]['location']
       );
     });
+  }
+
+  Future<ThankNote> updateThankNote(ThankNote thankNote) async {
+    print("updateThankNote");
+    final Database db = await database();
+    int effectedRowCount  = await db.update(
+      tableName, // table name
+      thankNote.toMap(), // Map , key : value => column : value
+      where: "id = ?", // where condition
+      whereArgs: [thankNote.id], // where arguments
+    );
+    print("updateThankNote effectedRowCount "+effectedRowCount.toString());
+    if(effectedRowCount == 0 ) {
+      return null;
+    }
+    else return thankNote;
+  }
+
+  Future<ThankNote> deleteThankNote(ThankNote thankNote) async {
+    print("deleteThankNote");
+    final Database db = await database();
+    int effectedRowCount = await db.delete(
+      tableName,
+      where: "id = ?",
+      whereArgs: [thankNote.id]
+    );
+    print("deleteThankNote effectedRowCount "+effectedRowCount.toString());
+    if(effectedRowCount == 0 ){
+      return null;
+    }
+    else {
+      return thankNote;
+    }
   }
 
   // Future<void> insertDog(Dog dog) async {

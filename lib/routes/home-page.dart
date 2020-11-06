@@ -13,8 +13,8 @@ class _HomePageState extends State<HomePage> {
 
   final ThankNoteDb thankNoteDb = ThankNoteDb();
   List<ThankNote> thankNotes = [
-    ThankNote(id: 1, person: "person1", description: "description1", location: "NPT"),
-    ThankNote(id: 2, person: "person2", description: "description2", location: "YGN")
+    ThankNote(id: -1, person: "Thank", description: "Let me thank you for using our app.", location: "MYANMAR"),
+    ThankNote(id: -2, person: "How To Use", description: "Just add thankfulness and get remind how beauty our life.", location: "YGN")
   ];
 
 
@@ -100,20 +100,55 @@ class _HomePageState extends State<HomePage> {
         );
       },
       itemBuilder: (BuildContext context, int index){
-          return ListTile(
-            leading: Icon(Icons.person,color: Colors.blueAccent,),
-            title: Text(thankNotes[index].toMap()['person']),
-            subtitle: Text(thankNotes[index].toMap()['description'] + "["+thankNotes[index].toMap()['location']+"]"),
+          return Card(
+            child: ListTile(
+              leading: IconButton(
+                icon: Icon(Icons.edit,color: Colors.blue,),
+                onPressed: () async{
+                  print("edit button onPressed");
+                  updateThankNoteRouteResult(context, thankNotes[index]);
+                },
+              ),
+              // leading: Icon(Icons.person,color: Colors.blueAccent,),
+              title: Text(thankNotes[index].toMap()['person']),
+              subtitle: Text(thankNotes[index].toMap()['description'] + "["+thankNotes[index].toMap()['location']+"]"),
 
-            trailing: IconButton(
-              onPressed: (){
-                print("trailing onPressed");
+              trailing: IconButton(
+                onPressed: () async {
+                  print("trailing onPressed");
+                  // Navigator.pop မှာက data pass လုပ်ပေးလို့ရတော့ စောင့်နေလိုက်မယ် :D :D :D
+                  bool comfirm = await showDialog(
+                      context: context,
+                      builder: (_) => comfirmDeleteDialog(),
+                      barrierDismissible: false,
+                  );
+                  print("comfirm is "+comfirm.toString());
+                  if(comfirm){
+                    var thankNote = await thankNoteDb.deleteThankNote(thankNotes[index]);
+                    if(thankNote != null){
+                      setState(() {
+                        thankNotes = thankNotes.where((note) => note.id != thankNote.id).toList();
+                      });
+                      Scaffold.of(context)
+                        ..removeCurrentSnackBar()
+                        ..showSnackBar(SnackBar(content: Text("Delete Success 👍")));
+                    }
+                    else{
+                      Scaffold.of(context)..removeCurrentSnackBar()..showSnackBar(SnackBar(content: Text("Oh dear, let me thanks you first. 🤝")));
+                    }
+                  }
+                  else {
+                    Scaffold.of(context)
+                      ..removeCurrentSnackBar()
+                      ..showSnackBar(SnackBar(content: Text("ကျေးဇူးတရားကို မချေဖျတ်တာ ကောင်းမွန်တဲ့ အလေ့အထဖြစ်ပါတယ်။")));
+                  }
+                },
+                icon: Icon(Icons.delete),
+              ),
+              onTap: () async{
+                print("listTile onTap "+thankNotes[index].toMap()['id'].toString());
               },
-              icon: Icon(Icons.double_arrow),
             ),
-            onTap: (){
-              print("listTile onTap "+thankNotes[index].toMap()['id'].toString());
-            },
           );
        }, // itemBuilder
     );
@@ -121,7 +156,7 @@ class _HomePageState extends State<HomePage> {
 
   void newThankNoteRouteResult(BuildContext context) async{
     final result = await Navigator.pushNamed(context, ThankForm.routeName);
-    print("result is "+result.toString());
+    print("new thank result is "+result.toString());
     if(result != null){
       thankNotes.insert(0,result);
       setState(() {
@@ -129,5 +164,47 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
+
+  void updateThankNoteRouteResult(BuildContext context,ThankNote thankNote) async{
+    final result = await Navigator.pushNamed(context, ThankForm.routeName, arguments: thankNote);
+    //ThankNote updateResult = await Navigator.pushNamed(context, ThankForm.routeName, arguments: thankNote);
+    print("update thank result "+result.toString());
+    if(result != null){
+      thankNotes = thankNotes.where((note) => note.id != thankNote.id).toList();
+      thankNotes.insert(0,result);
+      setState(() {
+        thankNotes = thankNotes;
+        //thankNotes[thankNotes.indexWhere((note) => note.id == result.id)] = result;
+      });
+    }
+  }
+
+  AlertDialog comfirmDeleteDialog(){
+    return AlertDialog(
+      title: Text("Delete?"),
+      content: Text("Are you sure to delete this thank?"),
+      actions: [
+        TextButton(
+            onPressed: (){
+              print("comfirmDeleteDialog Yes onPressed");
+              Navigator.pop(context,true);
+              return true;
+            },
+            child: Text("Yes")
+        ),
+        TextButton(
+            onPressed: (){
+              print("comfirmDeleteDialog No onPressed");
+              Navigator.pop(context,false);
+            },
+            child: Text("No")
+        ),
+      ],
+    );
+  }
+
+
+
+
 
 }
