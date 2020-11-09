@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thank_book/routes/about-app.dart';
 import 'package:thank_book/routes/home-page.dart';
 import 'package:thank_book/routes/thank-detail.dart';
 import 'package:thank_book/routes/thank-form.dart';
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
         HomePage.routeName : (context) => HomePage(),
         ThankForm.routeName : (context) => ThankForm(),
         ThankDetail.routeName : (context) => ThankDetail(),
+        AboutApp.routeName : (context) => AboutApp(),
       },
     );
   }

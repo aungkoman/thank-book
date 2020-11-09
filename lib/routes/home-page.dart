@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thank_book/data/thank-note-db.dart';
 import 'package:thank_book/data/thank-note.dart';
+import 'package:thank_book/routes/about-app.dart';
 import 'package:thank_book/routes/thank-form.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,6 +51,32 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Thank Book'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+                child: Center(child: Text("Thank You"))
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text("Setting"),
+              onTap: (){
+                print("listTile Setting onTap");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.app_registration),
+              title: Text("About"),
+              onTap: (){
+                print("listTile About onTap");
+                Navigator.pop(context); // close the drawer
+                Navigator.pushNamed(context, AboutApp.routeName);
+              },
+            ),
+
+          ]
+        ),
       ),
       body: thankCardList(),
       /*

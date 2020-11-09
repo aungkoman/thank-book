@@ -20,3 +20,16 @@ See you on App Store :D
 - Data Update / Delete : Update ဆိုပေမယ့် insert လုပ်တုန်းက conflict တွေဖြစ်လာရင် replace လုပ်ဆိုပြီး ပြောခဲ့တော့ id တူနေရင် replace လုပ်ပြီး Update ဖြစ်သွားရော :D 
 - Route Data Passing ကို လည်း တော်တော်လေး သုံးရတယ်။
 
+#### Day-3 2020-11-09
+- Date Time Picker ထည့်မယ်၊ field တစ်ခု ထပ်တိုးမယ်
+- Notification ပြမယ်။
+ 
+database operation တွေက တစ်ကြောင်းထိုး သွားနေကြတာ။ အဲ့တာကို Future ပြန်ပေးတဲ့အချိန်၊ try{}catch(exp){} နဲ့ ပြန်ပြင်‌ရေးရမယ်။ အခုလိုမျိုး database structure update မဖြစ်သေးချိန်လိုမျိုး error တက်တာကို debug လုပ်မနေပဲ ui မှာတင် သိနိုင်တာမျိုး လုပ်ရမယ်။ ဘာလို့လဲဆို UI Flow လည်း ရပ်သွားတာပဲ မို့လား။ ဘာလို့ရပ်မှန်း အကျိုးသင့် အကြောင်းသင့် ပြသင့်တယ်။
+
+- Database Migration
+ 
+onCreate, onUpgrade, onDowngrade တွေနဲ့ migration script တွေ ရေးထားရမယ်။ drop table တို့ create table တို့ တွေ။
+
+- Setting Page
+
+ဒါလည်း လိုတယ်။ ဒီ app ရဲ့ feature တွေ အကုန်လုံးကို သုံးမယ် မသုံးဘူး၊ ဘယ်လိုပုံစံ သုံးချင်တယ် ဆိုတာမျိုးကို ဒီမှာ ပြင်လို့ရမယ်။ အခု ဉပမာမှာ ဆိုရင် နေ့စဉ် notification တက်ရမလား မတက်ရဘူးလားတွေ မှတ်ထားရမယ်။ ဒီလောက်ကိုတော့ Shared Preference ထဲမှာပဲ အလွယ်မှတ်တာ ကောင်းလိမ့်မယ်။

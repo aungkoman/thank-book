@@ -31,12 +31,18 @@ class ThankNoteDb{
     return openDatabase(
         join(await getDatabasesPath(),databaseName), // ဆိုရရင် url ပါပဲကွာ
         // ဒါက database migration အတွက်၊ အောက်က Version ကိုကြည့်လို့ နဂိုဟာနဲ့ မတူတော့ဘူး ဆိုရင် onCreate ထဲကအတိုင်း migrate လုပ်သွားမယ် :D
-        onCreate: (db, version) {
-          return db.execute(
-            "CREATE TABLE $tableName (id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT)",
+        onCreate: (db, version) async{
+          return await db.execute(
+            "CREATE TABLE $tableName (id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT, reminder_date TEXT, reminder_time TEXT)",
           );
         },
-        version: 1
+        onUpgrade: (Database db,int oldVersion,int newVersion) async {
+          await db.execute("DROP TABLE $tableName");
+          return await db.execute(
+            "CREATE TABLE $tableName (id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT, reminder_date TEXT, reminder_time TEXT)",
+          );
+        },
+        version: 4
     );
   }
 
@@ -44,8 +50,8 @@ class ThankNoteDb{
     final Database db = await database(); // အခုမှ instance ရအောင် လုပ်မှာ :D အဲ့သလိုမျိုးလား နမူနာမှာက function တစ်ခုကို လုပ်ပြထားတာဆိုတော့ကာ
     int insertedId = await db.insert(
         tableName, // table name
-      thankNote.toMap(), // map နဲ့ လက်ခံတယ် ဆိုလိုချင်တာက key : value pair တွေ ပဲ ထည့်ပေးရမယ်။ အခု case မှာတော့ class ကို map ပြောင်းပေးထားတယ်
-      conflictAlgorithm:  ConflictAlgorithm.replace // ထည့်ရမလား ထုတ်ရမလား ပဋိပက္ခတွေ ဖြစ်ရင် ဘယ်လိုလုပ်ကြမလဲ? အစားသာ ထိုးလိုက်ပါ
+        thankNote.toMap(), // map နဲ့ လက်ခံတယ် ဆိုလိုချင်တာက key : value pair တွေ ပဲ ထည့်ပေးရမယ်။ အခု case မှာတော့ class ကို map ပြောင်းပေးထားတယ်
+        conflictAlgorithm:  ConflictAlgorithm.replace // ထည့်ရမလား ထုတ်ရမလား ပဋိပက္ခတွေ ဖြစ်ရင် ဘယ်လိုလုပ်ကြမလဲ? အစားသာ ထိုးလိုက်ပါ
     );
     thankNote.id = insertedId; // modify class member
     print("insertThankNote insertedId is "+insertedId.toString() +" : "+thankNote.toString());
@@ -65,7 +71,9 @@ class ThankNoteDb{
         id : thankNotes[i]['id'],
         person: thankNotes[i]['person'],
         description: thankNotes[i]['description'],
-        location: thankNotes[i]['location']
+          location: thankNotes[i]['location'],
+          reminder_date: thankNotes[i]['reminder_date'],
+          reminder_time: thankNotes[i]['reminder_time']
       );
     });
   }
