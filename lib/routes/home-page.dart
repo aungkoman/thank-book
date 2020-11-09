@@ -1,8 +1,18 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:thank_book/componets/main-drawer.dart';
+import 'package:thank_book/data/notification-class.dart';
+import 'package:thank_book/data/thank-constant.dart';
 import 'package:thank_book/data/thank-note-db.dart';
 import 'package:thank_book/data/thank-note.dart';
-import 'package:thank_book/routes/about-app.dart';
+import 'package:thank_book/main.dart';
+import 'package:thank_book/routes/notification-receiver.dart';
 import 'package:thank_book/routes/thank-form.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   static String routeName = '/';
@@ -18,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     ThankNote(id: -2, person: "How To Use", description: "Just add thankfulness and get remind how beauty our life.", location: "YGN")
   ];
 
+  NotificationClass notificationClass;
 
   @override
   void initState() {
@@ -25,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     print("HomePage initState");
     super.initState();
     initialize();
+
   } // initState
 
   Future<void> initialize() async{
@@ -43,7 +55,21 @@ class _HomePageState extends State<HomePage> {
         // thankNotes.add(ThankNote(id: 3, person: "person init", description: "description init", location: "MDY"));
         /* အမှန်ကတော့ အသစ် ပြင်လိုက်ရမှာ လောလောဆယ် မပြင်နိုင်သေးလို့ :D */
       });
+      notificationClass = NotificationClass(context); // ရုပ်တည်ကြီးနဲ့ context ကို ခေါ်သွားတာ :P
+      // notificationClass.ShowNotification();
+      // notificationClass.scheduleDailyNotification(ThankConstant.dailyNotificationId, hour, minute)
     }
+
+    // _ShowNotification(); // စာအတိုလေးတွေအတွက်ပဲ အဆင်ပြေတယ်
+    // _showBigPictureNotification(); // နှစ်ခုလုံးက အတိုလေးတွေပဲ ရမှာ :D
+
+    /*
+    အခုလုပ်ရမှာက နေ့တိုင်း ည ကိုးနာရီဆိုရင် ကျေးဇူးတင်ဖို့အတွက် notification တက်ပေးမယ်
+    တကယ်လို့ user က မတက်ချင်ဘူးဆိုရင် အဲ့ scheduled notification ကို ဖျတ်ထားပေးမယ်
+    အချိန်ပြောင်းရင် လိုက်ပြောင်းထားပေးမယ်
+    that's all
+    ဒါ က setting page မှာ သွားလုပ်ရမယ် ထင်တယ်။ :D
+     */
   }
 
   @override
@@ -52,51 +78,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Thank Book'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-                child: Center(child: Text("Thank You"))
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text("Setting"),
-              onTap: (){
-                print("listTile Setting onTap");
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.app_registration),
-              title: Text("About"),
-              onTap: (){
-                print("listTile About onTap");
-                Navigator.pop(context); // close the drawer
-                Navigator.pushNamed(context, AboutApp.routeName);
-              },
-            ),
-
-          ]
-        ),
-      ),
+      drawer: MainDrawer(),
       body: thankCardList(),
-      /*
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text('Person1'),
-            subtitle: Text('Thank description'),
-            onTap: (){
-              print("listTile onTap");
-            },
-          ),
-          ListTile(
-            title: Text('Person1'),
-            subtitle: Text('Thank description'),
-          )
-        ],
-      ),
-
-       */
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           print("fab onPresssed at HomePage");
@@ -229,9 +212,6 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-
-
-
 
 
 }
