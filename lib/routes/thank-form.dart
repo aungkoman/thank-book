@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thank_book/data/notification-class.dart';
 import 'package:thank_book/data/thank-note-db.dart';
 import 'package:thank_book/data/thank-note.dart';
+import 'package:thank_book/routes/home-page.dart';
 
 class ThankForm extends StatefulWidget {
   static const String routeName = "/thank-form";
@@ -15,6 +16,7 @@ class ThankForm extends StatefulWidget {
 class _ThankFormState extends State<ThankForm> {
   final _formKey = GlobalKey<FormState>();
 
+  final ThankNoteDb thankNoteDb = ThankNoteDb();
   /* get data from rounte */
 
   Map<String, dynamic> personMap = {
@@ -68,24 +70,24 @@ class _ThankFormState extends State<ThankForm> {
     print("ThankForm build passedThankNote "+passedThankNote.toString());
 
 
+    if(passedThankNote != null){
+      setState(() {
+        initialData = passedThankNote.toMap();
+        /* make sure it is first time */
+        if(initialData['id'] != personMap['id']){
+          personMap = initialData;
+          personMap['reminder'] = (personMap['reminder'] == "true") ? true : false; // String နဲ့ မှတ်ထားလို့
+          // ဒီမှာ render လုပ်ရင် bool နဲ့ လုပ်နေတာ :D
+        }
+      });
+      print("initialData id is "+initialData['id'].toString());
+    }
 
     if(isInitialize == 1){
       timeReminderController.text = (initialData != null && initialData['reminder_time'] != null ) ? initialData['reminder_time'] : null;
       dateReminderController.text = (initialData != null && initialData['reminder_date'] != null ) ? initialData['reminder_date'] : null;
       isInitialize++;
 
-      if(passedThankNote != null){
-        setState(() {
-          initialData = passedThankNote.toMap();
-          /* make sure it is first time */
-          if(initialData['id'] != personMap['id']){
-            personMap = initialData;
-            personMap['reminder'] = (personMap['reminder'] == "true") ? true : false; // String နဲ့ မှတ်ထားလို့
-            // ဒီမှာ render လုပ်ရင် bool နဲ့ လုပ်နေတာ :D
-          }
-        });
-        print("initialData id is "+initialData['id'].toString());
-      };
 
     }
 
@@ -377,7 +379,11 @@ class _ThankFormState extends State<ThankForm> {
                               print("noti is "+noti.title);
                             });
                             // go back
-                            Navigator.pop(context,thankNote);
+                            // Navigator.pushNamed(context, HomePage.routeName);
+                            // Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (Route<dynamic> route) => false);
+                            /* Navigator ထဲမှာ ရှိသမျှ ထုတ်မယ် */
+                            Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
+                            // Navigator.pop(context,thankNote);
                           }
                         },
                         child: Text((initialData != null) ? "Update" : "+ Add")
@@ -386,7 +392,83 @@ class _ThankFormState extends State<ThankForm> {
                 ),
               ),
             ),
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.redAccent,
+        onPressed: () async{
+          // Navigator.pushNamed(context, HomePage.routeName);
+          print("trailing onPressed");
+          // Navigator.pop မှာက data pass လုပ်ပေးလို့ရတော့ စောင့်နေလိုက်မယ် :D :D :D
+          bool comfirm = await showDialog(
+            context: context,
+            builder: (_) => comfirmDeleteDialog(),
+            barrierDismissible: false,
+          );
+          print("comfirm is "+comfirm.toString());
+          if(comfirm){
+            ThankNote thankNoteDelete = ThankNote(
+              id: personMap['id'],
+              person: personMap['person'],
+              description: personMap['description'],
+              location: personMap['location'],
+              reminder: personMap['reminder'].toString(),
+              reminder_date: personMap['reminder_date'],
+              reminder_time: personMap['reminder_time'],
+            );
+            var thankNote = await thankNoteDb.deleteThankNote(thankNoteDelete);
+            if(thankNote != null){
+              /*
+              Scaffold.of(context)
+                ..removeCurrentSnackBar()
+                ..showSnackBar(SnackBar(content: Text("Delete Success 👍")));
+
+               */
+            }
+            else{
+              // Scaffold.of(context)..removeCurrentSnackBar()..showSnackBar(SnackBar(content: Text("Oh dear, let me thanks you first. 🤝")));
+            }
+            // အဆင်ပြေပြေ မပြေပြေ ပြန်မယ် HomePage ကို ။ ဒီကောင်က delete က လာပါတယ်ဆိုတာကို ဘယ်လို လုပ်ကြမလဲ?
+            // Navigator.pushNamed(context, HomePage.routeName);
+            //Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (Route<dynamic> route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
+          }
+          else {
+            /*
+            Scaffold.of(context)
+              ..removeCurrentSnackBar()
+              ..showSnackBar(SnackBar(content: Text("ကျေးဇူးတရားကို မချေဖျတ်တာ ကောင်းမွန်တဲ့ အလေ့အထဖြစ်ပါတယ်။")));
+
+             */
+          }
+        },
+        child: Icon(Icons.delete,),
+      ),
     );
   }
+
+
+  AlertDialog comfirmDeleteDialog(){
+    return AlertDialog(
+      title: Text("Delete?"),
+      content: Text("Are you sure to delete this thank?"),
+      actions: [
+        TextButton(
+            onPressed: (){
+              print("comfirmDeleteDialog Yes onPressed");
+              Navigator.pop(context,true);
+              return true;
+            },
+            child: Text("Yes")
+        ),
+        TextButton(
+            onPressed: (){
+              print("comfirmDeleteDialog No onPressed");
+              Navigator.pop(context,false);
+            },
+            child: Text("No")
+        ),
+      ],
+    );
+  }
+
 }

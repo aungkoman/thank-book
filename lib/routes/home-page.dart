@@ -12,6 +12,7 @@ import 'package:thank_book/data/thank-note-db.dart';
 import 'package:thank_book/data/thank-note.dart';
 import 'package:thank_book/main.dart';
 import 'package:thank_book/routes/notification-receiver.dart';
+import 'package:thank_book/routes/thank-detail.dart';
 import 'package:thank_book/routes/thank-form.dart';
 import 'package:http/http.dart' as http;
 
@@ -142,51 +143,53 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (BuildContext context, int index){
           return Card(
             child: ListTile(
-              leading: IconButton(
-                icon: Icon(Icons.edit,color: Colors.blue,),
-                onPressed: () async{
-                  print("edit button onPressed");
-                  updateThankNoteRouteResult(context, thankNotes[index]);
-                },
-              ),
+              // leading: IconButton(
+              //   icon: Icon(Icons.edit,color: Colors.blue,),
+              //   onPressed: () async{
+              //     print("edit button onPressed");
+              //     updateThankNoteRouteResult(context, thankNotes[index]);
+              //   },
+              // ),
               // leading: Icon(Icons.person,color: Colors.blueAccent,),
               title: Text(thankNotes[index].toMap()['person']),
               subtitle: Text(thankNotes[index].toMap()['description'] + "["+thankNotes[index].toMap()['location']+"]"),
 
-              trailing: IconButton(
-                onPressed: () async {
-                  print("trailing onPressed");
-                  // Navigator.pop မှာက data pass လုပ်ပေးလို့ရတော့ စောင့်နေလိုက်မယ် :D :D :D
-                  bool comfirm = await showDialog(
-                      context: context,
-                      builder: (_) => comfirmDeleteDialog(),
-                      barrierDismissible: false,
-                  );
-                  print("comfirm is "+comfirm.toString());
-                  if(comfirm){
-                    var thankNote = await thankNoteDb.deleteThankNote(thankNotes[index]);
-                    if(thankNote != null){
-                      setState(() {
-                        thankNotes = thankNotes.where((note) => note.id != thankNote.id).toList();
-                      });
-                      Scaffold.of(context)
-                        ..removeCurrentSnackBar()
-                        ..showSnackBar(SnackBar(content: Text("Delete Success 👍")));
-                    }
-                    else{
-                      Scaffold.of(context)..removeCurrentSnackBar()..showSnackBar(SnackBar(content: Text("Oh dear, let me thanks you first. 🤝")));
-                    }
-                  }
-                  else {
-                    Scaffold.of(context)
-                      ..removeCurrentSnackBar()
-                      ..showSnackBar(SnackBar(content: Text("ကျေးဇူးတရားကို မချေဖျတ်တာ ကောင်းမွန်တဲ့ အလေ့အထဖြစ်ပါတယ်။")));
-                  }
-                },
-                icon: Icon(Icons.delete),
-              ),
+              // trailing: IconButton(
+              //   onPressed: () async {
+              //     print("trailing onPressed");
+              //     // Navigator.pop မှာက data pass လုပ်ပေးလို့ရတော့ စောင့်နေလိုက်မယ် :D :D :D
+              //     bool comfirm = await showDialog(
+              //         context: context,
+              //         builder: (_) => comfirmDeleteDialog(),
+              //         barrierDismissible: false,
+              //     );
+              //     print("comfirm is "+comfirm.toString());
+              //     if(comfirm){
+              //       var thankNote = await thankNoteDb.deleteThankNote(thankNotes[index]);
+              //       if(thankNote != null){
+              //         setState(() {
+              //           // ဖျတ်ပြီးသား note ကို state မှာပါ ဖျတ်မယ်။
+              //           thankNotes = thankNotes.where((note) => note.id != thankNote.id).toList();
+              //         });
+              //         Scaffold.of(context)
+              //           ..removeCurrentSnackBar()
+              //           ..showSnackBar(SnackBar(content: Text("Delete Success 👍")));
+              //       }
+              //       else{
+              //         Scaffold.of(context)..removeCurrentSnackBar()..showSnackBar(SnackBar(content: Text("Oh dear, let me thanks you first. 🤝")));
+              //       }
+              //     }
+              //     else {
+              //       Scaffold.of(context)
+              //         ..removeCurrentSnackBar()
+              //         ..showSnackBar(SnackBar(content: Text("ကျေးဇူးတရားကို မချေဖျတ်တာ ကောင်းမွန်တဲ့ အလေ့အထဖြစ်ပါတယ်။")));
+              //     }
+              //   },
+              //   icon: Icon(Icons.delete),
+              // ),
               onTap: () async{
                 print("listTile onTap "+thankNotes[index].toMap()['id'].toString());
+                Navigator.pushNamed(context, ThankDetail.routeName,arguments: thankNotes[index]);
               },
             ),
           );

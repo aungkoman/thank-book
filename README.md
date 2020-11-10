@@ -123,6 +123,13 @@ Thank Note inserted id ကို notification id အနေနဲ့ ထည့်
 Result ကလေး တစ်ချက်လောက် ကြည့်ကြရအောင်
 လောလောဆယ် Screenshot , နောက်မှ release အကြောင်းဖတ်ပြီး release version တွေပါ လုပ်ရမယ်။
 
+### Detail Page ထည့်ခြင်း
+Detail Route ထပ်ထည့်လိုက်တာ Navigator ကို ပတ်တဲ့ ပုံစံတွေပါ အကုန်ပြန်ပြင်လိုက်ရတယ်။ အမှန်က Navigator.pushNamed(); နဲ့ Navigator.pop(); နဲ့တင် အဆင်ပြေခဲ့တာ။ Back ခလုပ်လည်းနှိပ်ရော ဘယ်ကမ္ဘာရောက်လို့ ရောက်သွားမှန်းမသိ လမ်းတွေပျောက်ရော။ မဖြစ်ချေဘူးဆိုပြီး လမ်းကြောင်းရှင်းတဲ့ ဟာ လိုက်ရှာတော့ အောက်ကကောင်နဲ့ အဆင်ပြေသွားတယ်။
+
+```dart
+Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
+```
+```Navigator.of()``` ဆိုတာလေးက အသက်။ 
 ---
 
 <html>
