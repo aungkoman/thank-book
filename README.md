@@ -126,4 +126,11 @@ Result ကလေး တစ်ချက်လောက် ကြည့်ကြ�
 ![GitHub Logo](/images/logo.png)
 Format: ![Alt Text](url)
 
-![App Screenshots](/readme/images/app_screenshots/screenshot (1).png)
+![GitHub Logo]('./readme/images/app_screenshots/screenshot (1).png')
+Format: ![Alt Text](url)
+
+![App Screenshots](./readme/images/app_screenshots/screenshot (1).png)
+Format: ![Alt Text](url)
+
+![App Screenshots]('./readme/images/app_screenshots/screenshot (1).png')
+Format: ![Alt Text](url)
