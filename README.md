@@ -94,3 +94,10 @@ setting page မှာ ဝင်ပြီး setup လုပ်ရင်တေ�
  
 ဆိုတော့ကာ Shared Preference ကိုပါ ခွဲရေးဖို့အချိန်တန်ပြီ Bro.
 ဒီနေ့တော့ ဒီလောက်ပါပဲ။
+
+
+#### Day-4 2020-11-10
+- [x] Shared Preference ကို class သပ်သပ်ခွဲရေးမယ်။
+- [ ] Thank Note တစ်ခုချင်းစီအတွက် zonedSchedule Notification တစ်ခုစီ ထားပေးမယ်။
+- [ ] Stack နဲ့ Card layout alignment ဖတ်မယ် (Shopping Cart အတွက်)
+- [ ] buttom navigation လိုမျိုး မဖတ်ရသေးတဲ့ Flutter UI Widget အကြောင်းတွေ ဖတ်မယ်။

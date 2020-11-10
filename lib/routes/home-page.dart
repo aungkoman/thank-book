@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thank_book/componets/main-drawer.dart';
 import 'package:thank_book/data/notification-class.dart';
 import 'package:thank_book/data/thank-constant.dart';
@@ -29,6 +30,9 @@ class _HomePageState extends State<HomePage> {
   ];
 
   NotificationClass notificationClass;
+  SharedPreferences sPref;
+  bool dailyNotificationStatus;
+  DateTime dailyNotificationTime;
 
   @override
   void initState() {
@@ -57,7 +61,20 @@ class _HomePageState extends State<HomePage> {
       });
       notificationClass = NotificationClass(context); // ရုပ်တည်ကြီးနဲ့ context ကို ခေါ်သွားတာ :P
       // notificationClass.ShowNotification();
+
+
       // notificationClass.scheduleDailyNotification(ThankConstant.dailyNotificationId, hour, minute)
+
+      /* ဒါက ပထမဆုံး အကြိမ်ပဲ ဆိုကြပါစို့
+        ဒါဆိုရင် zonedSchedule notificaiton ထည့်ဖို့လိုလာပြီ
+        ဘယ် Data ကို ယူပြီး ထည့်မှာလဲ ဆိုရင် default data ဖြစ်တဲ့ ညကိုးနာရီပေါ့။
+       */
+      sPref = await SharedPreferences.getInstance();
+      dailyNotificationStatus = (sPref.getBool('dailyNotificationStatus') != null ) ? sPref.getBool('dailyNotificationStatus') : true;
+      sPref.setBool('dailyNotificationStatus', dailyNotificationStatus);
+      dailyNotificationTime = (sPref.getString('dailyNotificationTime') != null ) ? DateTime.parse(sPref.getString('dailyNotificationTime')) : DateTime(2020,12,12,21,00,00);
+      sPref.setString('dailyNotificationTime', dailyNotificationTime.toString());
+      _toggleDailyNotification();
     }
 
     // _ShowNotification(); // စာအတိုလေးတွေအတွက်ပဲ အဆင်ပြေတယ်
@@ -71,6 +88,19 @@ class _HomePageState extends State<HomePage> {
     ဒါ က setting page မှာ သွားလုပ်ရမယ် ထင်တယ်။ :D
      */
   }
+
+
+  void _toggleDailyNotification(){
+    if(dailyNotificationStatus == true){
+      print("Daily Notification is set at "+dailyNotificationTime.hour.toString() + ":"+ dailyNotificationTime.minute.toString());
+      notificationClass.scheduleDailyNotification(ThankConstant.dailyNotificationId, dailyNotificationTime.hour, dailyNotificationTime.minute);
+    }
+    else{
+      print("Daily Notification cancel");
+      notificationClass.cancelNotification(ThankConstant.dailyNotificationId);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

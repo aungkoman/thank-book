@@ -88,8 +88,8 @@ class NotificationClass {
   }
 
 
-  Future<void> ShowNotification({String title = 'plain title', String message = 'plain body'}) async{
-    print("_ShowNotificaiton");
+  Future<void> ShowNotification({String title = 'plain title', String message = 'plain body', String payload = 'payload Item x'}) async{
+    print("ShowNotification");
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
         'channel id', 'channel name', 'channel description',
@@ -101,7 +101,7 @@ class NotificationClass {
     NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, title, message, platformChannelSpecifics,
-        payload: 'item x');
+        payload: payload);
   }
 
 
@@ -179,7 +179,7 @@ class NotificationClass {
     return scheduledDate;
   }
 
-  Future<void> _cancelNotification(int notificationId) async {
+  Future<void> cancelNotification(int notificationId) async {
     print("_cancelNotification");
     await flutterLocalNotificationsPlugin.cancel(notificationId);
   }
