@@ -123,6 +123,18 @@ Thank Note inserted id ကို notification id အနေနဲ့ ထည့်
 Result ကလေး တစ်ချက်လောက် ကြည့်ကြရအောင်
 လောလောဆယ် Screenshot , နောက်မှ release အကြောင်းဖတ်ပြီး release version တွေပါ လုပ်ရမယ်။
 
+
+
+<style>
+.thirdLeft{
+  width : 33%;
+}
+</style>
+
+<span class="thirdLeft">
+![App Screenshot](readme/images/app_screenshots/screenshot1.png)
+</span>
+ 
 ![App Screenshot](readme/images/app_screenshots/screenshot1.png)
  
 
