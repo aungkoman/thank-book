@@ -123,6 +123,7 @@ Thank Note inserted id ကို notification id အနေနဲ့ ထည့်
 Result ကလေး တစ်ချက်လောက် ကြည့်ကြရအောင်
 လောလောဆယ် Screenshot , နောက်မှ release အကြောင်းဖတ်ပြီး release version တွေပါ လုပ်ရမယ်။
 
+---
 
 <html>
 <style>

@@ -45,11 +45,14 @@ class _ThankFormState extends State<ThankForm> {
   TextEditingController timeReminderController = TextEditingController();
 
   NotificationClass notificationClass;
+  int isInitialize = 0;
   @override
   void initState() {
     // TODO: implement initState
     print("ThankForm initState");
     super.initState();
+    isInitialize++;
+    print("isInitialize "+isInitialize.toString());
     initialize();
   }
 
@@ -64,21 +67,28 @@ class _ThankFormState extends State<ThankForm> {
     final ThankNote passedThankNote = ModalRoute.of(context).settings.arguments;
     print("ThankForm build passedThankNote "+passedThankNote.toString());
 
-    if(passedThankNote != null){
-      setState(() {
-        initialData = passedThankNote.toMap();
-        /* make sure it is first time */
-        if(initialData['id'] != personMap['id']){
-          personMap = initialData;
-          personMap['reminder'] = (personMap['reminder'] == "true") ? true : false; // String နဲ့ မှတ်ထားလို့
-          // ဒီမှာ render လုပ်ရင် bool နဲ့ လုပ်နေတာ :D
-        }
-      });
-      print("initialData id is "+initialData['id'].toString());
-    };
 
-    timeReminderController.text = (initialData != null && initialData['reminder_time'] != null ) ? initialData['reminder_time'] : null;
-    dateReminderController.text = (initialData != null && initialData['reminder_date'] != null ) ? initialData['reminder_date'] : null;
+
+    if(isInitialize == 1){
+      timeReminderController.text = (initialData != null && initialData['reminder_time'] != null ) ? initialData['reminder_time'] : null;
+      dateReminderController.text = (initialData != null && initialData['reminder_date'] != null ) ? initialData['reminder_date'] : null;
+      isInitialize++;
+
+      if(passedThankNote != null){
+        setState(() {
+          initialData = passedThankNote.toMap();
+          /* make sure it is first time */
+          if(initialData['id'] != personMap['id']){
+            personMap = initialData;
+            personMap['reminder'] = (personMap['reminder'] == "true") ? true : false; // String နဲ့ မှတ်ထားလို့
+            // ဒီမှာ render လုပ်ရင် bool နဲ့ လုပ်နေတာ :D
+          }
+        });
+        print("initialData id is "+initialData['id'].toString());
+      };
+
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Thank Form'),
@@ -229,6 +239,10 @@ class _ThankFormState extends State<ThankForm> {
                                 onChanged: (date) {
                                   print('change $date');
                                   dateReminderController.text = date.toString();
+                                  setState(() {
+                                    personMap['reminder_date'] = date.toString();
+                                    print("personMap data is "+personMap['reminder_date']);
+                                  });
                                 }, onConfirm: (date) {
                                   print('confirm $date');
                                   dateReminderController.text = date.toString();
@@ -278,6 +292,9 @@ class _ThankFormState extends State<ThankForm> {
                                 onChanged: (time) {
                                   print('change $time');
                                   timeReminderController.text = time.toString();
+                                  setState(() {
+                                    personMap['reminder_time'] = time.toString();
+                                  });
                                 },
                                 onConfirm: (time) {
                                   print('confirm $time');
