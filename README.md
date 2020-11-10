@@ -125,18 +125,9 @@ Result ကလေး တစ်ချက်လောက် ကြည့်ကြ�
 
 
 
-<style>
-.thirdLeft{
-  width : 33%;
-}
-</style>
-
-<span class="thirdLeft">
-![App Screenshot](readme/images/app_screenshots/screenshot1.png)
-</span>
- 
-![App Screenshot](readme/images/app_screenshots/screenshot1.png)
- 
+<div style="width:150px; height:100px">
+![title](readme/images/app_screenshots/screenshot1.png)
+</div>
 
 ![title](readme/images/app_screenshots/screenshot2.png)
  
