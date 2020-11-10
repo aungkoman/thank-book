@@ -124,18 +124,15 @@ Result ကလေး တစ်ချက်လောက် ကြည့်ကြ�
 လောလောဆယ် Screenshot , နောက်မှ release အကြောင်းဖတ်ပြီး release version တွေပါ လုပ်ရမယ်။
 
 
+<html>
 <style>
 img{
   width : 150px;
+  margin-left : 20px;
   float : left;
 }
 </style>
-
-<img src="readme/images/app_screenshots/screenshot1.png" />
-<img src="readme/images/app_screenshots/screenshot1.png" />
-<img src="readme/images/app_screenshots/screenshot1.png" />
-
-
+</html>
 
 ![title](readme/images/app_screenshots/screenshot1.png)
 
