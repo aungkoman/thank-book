@@ -123,14 +123,31 @@ Thank Note inserted id ကို notification id အနေနဲ့ ထည့်
 Result ကလေး တစ်ချက်လောက် ကြည့်ကြရအောင်
 လောလောဆယ် Screenshot , နောက်မှ release အကြောင်းဖတ်ပြီး release version တွေပါ လုပ်ရမယ်။
 
-![GitHub Logo](/images/logo.png)
-Format: ![Alt Text](url)
+![App Screenshot](readme/images/app_screenshots/screenshot1.png)
+ 
 
-![GitHub Logo]('./readme/images/app_screenshots/screenshot (1).png')
-Format: ![Alt Text](url)
+![title](readme/images/app_screenshots/screenshot2.png)
+ 
 
-![App Screenshots](./readme/images/app_screenshots/screenshot (1).png)
-Format: ![Alt Text](url)
+![title](readme/images/app_screenshots/screenshot(3).png)
+ 
 
-![App Screenshots]('./readme/images/app_screenshots/screenshot (1).png')
-Format: ![Alt Text](url)
+![title](readme/images/app_screenshots/screenshot(4).png)
+ 
+
+![title](readme/images/app_screenshots/screenshot(5).png)
+ 
+
+![title](readme/images/app_screenshots/screenshot(6).png)
+ 
+
+![title](readme/images/app_screenshots/screenshot(7).png)
+ 
+
+![title](readme/images/app_screenshots/screenshot(8).png)
+ 
+
+![title](readme/images/app_screenshots/screenshot(9).png)
+ 
+
+![title](readme/images/app_screenshots/screenshot(10).png)
