@@ -36,7 +36,7 @@ onCreate, onUpgrade, onDowngrade တွေနဲ့ migration script တွေ �
 > shared_preferences: ^0.5.12+4
  
 သုံးတော့ သုံးဖူးတယ်၊ မမှတ်မိ။ ဒီတော့ copy cat ပဲ ပြန်လုပ်ကြတာပေါ့။
-```
+```dart
 _incrementCounter() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int counter = (prefs.getInt('counter') ?? 0) + 1;
@@ -54,7 +54,7 @@ initial value သတ်မှတ်ထားတာကတော့ အကော�
 'package:flutter/src/material/checkbox.dart': Failed assertion: line 76 pos 15: 'tristate || value != null': is not true.
 ```
 ဒီ error က check box ရဲ့ value ကို null ပေးလို့ တက်တာ။ ဒီတော့ initState ကို async နဲ့ ရေးရမလား။ မရပြန် :P
-```
+```dart
 @override
   void initState() {
     // TODO: implement initState
@@ -98,6 +98,25 @@ setting page မှာ ဝင်ပြီး setup လုပ်ရင်တေ�
 
 #### Day-4 2020-11-10
 - [x] Shared Preference ကို class သပ်သပ်ခွဲရေးမယ်။
-- [ ] Thank Note တစ်ခုချင်းစီအတွက် zonedSchedule Notification တစ်ခုစီ ထားပေးမယ်။
+- [x] Thank Note တစ်ခုချင်းစီအတွက် zonedSchedule Notification တစ်ခုစီ ထားပေးမယ်။
 - [ ] Stack နဲ့ Card layout alignment ဖတ်မယ် (Shopping Cart အတွက်)
 - [ ] buttom navigation လိုမျိုး မဖတ်ရသေးတဲ့ Flutter UI Widget အကြောင်းတွေ ဖတ်မယ်။
+ 
+notification input form မှာ Widget Show/Hide အတွက် Visibility Widget တစ်ခု သုံးရတယ်။ နောက်ပြီး sqlite မှာ bool type လက်မခံတော့ TEXT field ပဲ သုံးပြီး ပြန်ထုတ်တဲ့အချိန် bool ပြန်ပြောင်းသုံးရတာတော့ရှိတယ်။ 
+
+လိပ်ပတ်တော့ လည်သွားပြီ။ အပိုဆောင်းအနေနဲ့ Pending Notification List ကိုပါ ထုတ်ကြည့်ဖြစ်သွားတယ်။ (မကြည့်လို့ကလဲ မရ ကိုယ့်ကောင်တွေက ဘယ်ရောက်လို့ ဘယ်ပေါက်နေမှန်းမသိ ဖြစ်နေမှာ :D )
+```dart
+  Future<List<PendingNotificationRequest>> pendingNotificationRequests () async {
+    return await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+  }
+```
+ပြန်ထုတ်သုံးရင်
+```dart
+List<PendingNotificationRequest>  notiList = await notificationClass.pendingNotificationRequests();
+notiList.forEach((noti) {
+  print("noti is "+noti.title);
+});
+```
+Thank Note inserted id ကို notification id အနေနဲ့ ထည့်ပေးလိုက်တာဆိုတော့ကာ Main App Notification ကိုတော့ တစ်ခြားဂဏန်း ```5508``` ထားထားလိုက်တယ်။ :+1: အိုကေသွားပြန်ရော။
+
+:stuck_out_tongue:

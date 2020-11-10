@@ -5,5 +5,5 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class ThankConstant {
-  static const int dailyNotificationId = 1;
+  static const int dailyNotificationId = 5508;
 }

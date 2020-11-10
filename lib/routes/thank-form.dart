@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:thank_book/data/notification-class.dart';
 import 'package:thank_book/data/thank-note-db.dart';
 import 'package:thank_book/data/thank-note.dart';
 
@@ -19,7 +21,10 @@ class _ThankFormState extends State<ThankForm> {
     'id' : null,
     'person' : '',
     'description' : '',
-    'location' : ''
+    'location' : '',
+    'reminder' : true,
+    'reminder_date' : null,
+    'reminder_time' : null
   };
 
   Map<String, dynamic> initialData;
@@ -38,6 +43,21 @@ class _ThankFormState extends State<ThankForm> {
 
   TextEditingController dateReminderController = TextEditingController();
   TextEditingController timeReminderController = TextEditingController();
+
+  NotificationClass notificationClass;
+  @override
+  void initState() {
+    // TODO: implement initState
+    print("ThankForm initState");
+    super.initState();
+    initialize();
+  }
+
+  void initialize() async{
+    print("ThankForm initialize");
+    notificationClass = NotificationClass(context);
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -50,6 +70,8 @@ class _ThankFormState extends State<ThankForm> {
         /* make sure it is first time */
         if(initialData['id'] != personMap['id']){
           personMap = initialData;
+          personMap['reminder'] = (personMap['reminder'] == "true") ? true : false; // String နဲ့ မှတ်ထားလို့
+          // ဒီမှာ render လုပ်ရင် bool နဲ့ လုပ်နေတာ :D
         }
       });
       print("initialData id is "+initialData['id'].toString());
@@ -155,94 +177,119 @@ class _ThankFormState extends State<ThankForm> {
                     // location input
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
-                      child: TextFormField(
-                        readOnly: true,
-                        controller: dateReminderController,
-                        /* controller နဲ့ initialValue:  ကို ပေါင်းသုံးလို့မရပါ တစ်ခုပဲ သုံးရပါမယ်။ */
-                        // initialValue: (initialData != null ) ? initialData['reminder_date'] : null,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(8),
-                          border: OutlineInputBorder(),
-                          labelText: "Reminder Date",
-                          hintText: "Choose Date",
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5)
+                      ),
+                      child: ListTile(
+                        title: Text("Reminder"),
+                        trailing: Checkbox(
+                          value: personMap['reminder'],
+                          onChanged: (value){
+                            print("Reminder checkbox onChanged "+value.toString());
+                            setState(() {
+                              personMap['reminder'] = value;
+                            });
+                          },
                         ),
-                        validator: (value){
-                          if(value.isEmpty){
-                            return "Tap to choose date";
-                          }
-                          else{
-                            return null;
-                          }
-                        }, // validator
-                        onChanged: (value){
-                          print("date input text onChange "+personMap['date']);
-                        }, // onChanged
-                        onTap: (){
-                          print("date field onTap");
-                          DatePicker.showDatePicker(context,
-                              showTitleActions: true,
-                              minTime: DateTime.now(),
-                              maxTime: DateTime(2300),
-                              onChanged: (date) {
-                                print('change $date');
-                                dateReminderController.text = date.toString();
-                              }, onConfirm: (date) {
-                                print('confirm $date');
-                                dateReminderController.text = date.toString();
-                                setState(() {
-                                  personMap['reminder_date'] = date.toString();
-                                  print("personMap data is "+personMap['reminder_date']);
-                                });
-                              },
-                              currentTime: DateTime.now(), locale: LocaleType.en
-                          );
-                        },
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
-                      child: TextFormField(
-                        readOnly: true,
-                        controller: timeReminderController,
-                        // we can't use both initialValue and controller at the same time
-                        // initialValue: (initialData != null ) ? initialData['reminder_time'] : null,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(8),
-                          border: OutlineInputBorder(),
-                          labelText: "Reminder Time",
-                          hintText: "Choose Time",
+                    Visibility(
+                      visible: personMap['reminder'],
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: dateReminderController,
+                          /* controller နဲ့ initialValue:  ကို ပေါင်းသုံးလို့မရပါ တစ်ခုပဲ သုံးရပါမယ်။ */
+                          // initialValue: (initialData != null ) ? initialData['reminder_date'] : null,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(8),
+                            border: OutlineInputBorder(),
+                            labelText: "Reminder Date",
+                            hintText: "Choose Date",
+                          ),
+                          validator: (value){
+                            if(value.isEmpty){
+                              return "Tap to choose date";
+                            }
+                            else{
+                              return null;
+                            }
+                          }, // validator
+                          onChanged: (value){
+                            print("date input text onChange "+personMap['date']);
+                          }, // onChanged
+                          onTap: (){
+                            print("date field onTap");
+                            DatePicker.showDatePicker(context,
+                                showTitleActions: true,
+                                minTime: DateTime.now(),
+                                maxTime: DateTime(2300),
+                                onChanged: (date) {
+                                  print('change $date');
+                                  dateReminderController.text = date.toString();
+                                }, onConfirm: (date) {
+                                  print('confirm $date');
+                                  dateReminderController.text = date.toString();
+                                  setState(() {
+                                    personMap['reminder_date'] = date.toString();
+                                    print("personMap data is "+personMap['reminder_date']);
+                                  });
+                                },
+                                currentTime: DateTime.now(), locale: LocaleType.en
+                            );
+                          },
                         ),
-                        validator: (value){
-                          if(value.isEmpty){
-                            return "Tap to choose time";
-                          }
-                          else{
-                            return null;
-                          }
-                        }, // validator
-                        onChanged: (value){
-                          setState(() {
-                            print("time input text onChange "+personMap['date']);
-                          });
-                        }, // onChanged
-                        onTap: (){
-                          print("time field onTap");
-                          DatePicker.showTimePicker(context,
-                              showTitleActions: true,
-                              onChanged: (time) {
-                                print('change $time');
-                                timeReminderController.text = time.toString();
-                              },
-                              onConfirm: (time) {
-                                print('confirm $time');
-                                timeReminderController.text = time.toString();
-                                setState(() {
-                                  personMap['reminder_time'] = time.toString();
-                                });
-                              },
-                              currentTime: DateTime.now(), locale: LocaleType.en
-                          );
-                        },
+                      ),
+                    ),
+                    Visibility(
+                      visible: personMap['reminder'],
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: timeReminderController,
+                          // we can't use both initialValue and controller at the same time
+                          // initialValue: (initialData != null ) ? initialData['reminder_time'] : null,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(8),
+                            border: OutlineInputBorder(),
+                            labelText: "Reminder Time",
+                            hintText: "Choose Time",
+                          ),
+                          validator: (value){
+                            if(value.isEmpty){
+                              return "Tap to choose time";
+                            }
+                            else{
+                              return null;
+                            }
+                          }, // validator
+                          onChanged: (value){
+                            setState(() {
+                              print("time input text onChange "+personMap['date']);
+                            });
+                          }, // onChanged
+                          onTap: (){
+                            print("time field onTap");
+                            DatePicker.showTimePicker(context,
+                                showTitleActions: true,
+                                onChanged: (time) {
+                                  print('change $time');
+                                  timeReminderController.text = time.toString();
+                                },
+                                onConfirm: (time) {
+                                  print('confirm $time');
+                                  timeReminderController.text = time.toString();
+                                  setState(() {
+                                    personMap['reminder_time'] = time.toString();
+                                  });
+                                },
+                                currentTime: DateTime.now(), locale: LocaleType.en
+                            );
+                          },
+                        ),
                       ),
                     ),
 
@@ -253,7 +300,8 @@ class _ThankFormState extends State<ThankForm> {
                             print("form is validated");
                             Scaffold
                                 .of(context)
-                                .showSnackBar(SnackBar(content: Text('Form Data is validated ')));
+                                ..removeCurrentSnackBar()
+                                ..showSnackBar(SnackBar(content: Text('Form Data is validated ')));
                             //  add to database
 
 
@@ -270,6 +318,7 @@ class _ThankFormState extends State<ThankForm> {
                               person: personMap['person'],
                               description: personMap['description'],
                               location: personMap['location'],
+                              reminder: personMap['reminder'].toString(),
                               reminder_date: personMap['reminder_date'],
                               reminder_time: personMap['reminder_time'],
                             );
@@ -288,6 +337,28 @@ class _ThankFormState extends State<ThankForm> {
                             // insert data to database
                             print("insert or update thankNote data  is "+thankNote.toString());
                             thankNote = await thankNoteDb.insertThankNote(thankNote);
+
+                            /*
+                             ဒီနေရာမှာ notification setup လုပ်ရမယ်
+                             inserted id နဲ့ reminder status အပေါမူတည်ပြီး
+                             */
+                            print("inserted/updated Thank Note "+thankNote.toString());
+                            if(thankNote.reminder == "true"){
+                              // add zonedScheduled notification
+                              final DateTime day = DateTime.parse(thankNote.reminder_date);
+                              final DateTime time = DateTime.parse(thankNote.reminder_time);
+                              notificationClass.scheduleDailyNotification(thankNote.id, time.hour, time.minute, title: thankNote.person, message: thankNote.description,payload: thankNote.description);
+                              print("notification set ");
+                            }
+                            else{
+                              notificationClass.cancelNotification(thankNote.id);
+                              print("notification calcel");
+                            }
+                            List<PendingNotificationRequest>  notiList = await notificationClass.pendingNotificationRequests();
+                            print("pending notificaiton is "+notiList.toString());
+                            notiList.forEach((noti) {
+                              print("noti is "+noti.title);
+                            });
                             // go back
                             Navigator.pop(context,thankNote);
                           }

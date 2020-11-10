@@ -33,16 +33,16 @@ class ThankNoteDb{
         // ဒါက database migration အတွက်၊ အောက်က Version ကိုကြည့်လို့ နဂိုဟာနဲ့ မတူတော့ဘူး ဆိုရင် onCreate ထဲကအတိုင်း migrate လုပ်သွားမယ် :D
         onCreate: (db, version) async{
           return await db.execute(
-            "CREATE TABLE $tableName (id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT, reminder_date TEXT, reminder_time TEXT)",
+            "CREATE TABLE $tableName (id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT,reminder TEXT, reminder_date TEXT, reminder_time TEXT)",
           );
         },
         onUpgrade: (Database db,int oldVersion,int newVersion) async {
           await db.execute("DROP TABLE $tableName");
           return await db.execute(
-            "CREATE TABLE $tableName (id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT, reminder_date TEXT, reminder_time TEXT)",
+            "CREATE TABLE $tableName (id INTEGER PRIMARY KEY, person TEXT, description TEXT, location TEXT,reminder TEXT, reminder_date TEXT, reminder_time TEXT)",
           );
         },
-        version: 4
+        version: 5
     );
   }
 

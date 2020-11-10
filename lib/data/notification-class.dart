@@ -148,7 +148,7 @@ class NotificationClass {
 
 
   /* zonedSchedule ဆိုတာက repeat ထပ်မယ် ဆိုတဲ့ သဘော */
-  Future<void> scheduleDailyNotification(int notificationId,int hour,int minute,{String title = 'ကျေးဇူးတင်ကြမယ်', String message = 'ဒီနေ့ ဘယ်သူတွေကို ကျေးဇူးတင်ပါတယ် ပြောဖြစ်လဲ?'}) async {
+  Future<void> scheduleDailyNotification(int notificationId,int hour,int minute,{String title = 'ကျေးဇူးတင်ကြမယ်', String message = 'ဒီနေ့ ဘယ်သူတွေကို ကျေးဇူးတင်ပါတယ် ပြောဖြစ်လဲ?', String payload="Payload x Item"}) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         notificationId,
         title,
@@ -163,7 +163,7 @@ class NotificationClass {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
-        payload: 'item x zonedScheduled notificatio'
+        payload: payload
     ); // matchDateTimeComponents ဆိုတာက daily/ weekly/ monthly or by time series...
     // DatetimeComponents.time ဆိုရင် အချိန်အပိုင်းအခြားနဲ့၊ dayOfWeekAndTime ဆိုရင် အပတ်စဉ် အချိန်နဲ့ :D
   }
@@ -183,6 +183,10 @@ class NotificationClass {
     print("_cancelNotification");
     await flutterLocalNotificationsPlugin.cancel(notificationId);
   }
+  Future<List<PendingNotificationRequest>> pendingNotificationRequests () async {
+    return await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+  }
+
 
 
 }
