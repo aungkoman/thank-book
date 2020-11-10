@@ -72,6 +72,7 @@ class ThankNoteDb{
         person: thankNotes[i]['person'],
         description: thankNotes[i]['description'],
           location: thankNotes[i]['location'],
+          reminder: thankNotes[i]['reminder'],
           reminder_date: thankNotes[i]['reminder_date'],
           reminder_time: thankNotes[i]['reminder_time']
       );

@@ -120,3 +120,10 @@ notiList.forEach((noti) {
 Thank Note inserted id ကို notification id အနေနဲ့ ထည့်ပေးလိုက်တာဆိုတော့ကာ Main App Notification ကိုတော့ တစ်ခြားဂဏန်း ```5508``` ထားထားလိုက်တယ်။ :+1: အိုကေသွားပြန်ရော။
 
 :stuck_out_tongue:
+Result ကလေး တစ်ချက်လောက် ကြည့်ကြရအောင်
+လောလောဆယ် Screenshot , နောက်မှ release အကြောင်းဖတ်ပြီး release version တွေပါ လုပ်ရမယ်။
+
+![GitHub Logo](/images/logo.png)
+Format: ![Alt Text](url)
+
+![App Screenshots](/readme/images/app_screenshots/screenshot (1).png)
