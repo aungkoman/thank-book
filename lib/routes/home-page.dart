@@ -10,11 +10,13 @@ import 'package:thank_book/data/notification-class.dart';
 import 'package:thank_book/data/thank-constant.dart';
 import 'package:thank_book/data/thank-note-db.dart';
 import 'package:thank_book/data/thank-note.dart';
+import 'package:thank_book/data/thank-search-delicate.dart';
 import 'package:thank_book/main.dart';
 import 'package:thank_book/routes/notification-receiver.dart';
 import 'package:thank_book/routes/thank-detail.dart';
 import 'package:thank_book/routes/thank-form.dart';
 import 'package:http/http.dart' as http;
+import 'package:thank_book/style/thank-text-style.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = '/';
@@ -24,6 +26,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  // final List<String> list = List.generate(10, (index) => "Text $index");
   final ThankNoteDb thankNoteDb = ThankNoteDb();
   List<ThankNote> thankNotes = [
     ThankNote(id: -1, person: "Thank", description: "Let me thank you for using our app.", location: "MYANMAR"),
@@ -66,7 +69,8 @@ class _HomePageState extends State<HomePage> {
 
       // notificationClass.scheduleDailyNotification(ThankConstant.dailyNotificationId, hour, minute)
 
-      /* ဒါက ပထမဆုံး အကြိမ်ပဲ ဆိုကြပါစို့
+      /*
+        ဒါက ပထမဆုံး အကြိမ်ပဲ ဆိုကြပါစို့
         ဒါဆိုရင် zonedSchedule notificaiton ထည့်ဖို့လိုလာပြီ
         ဘယ် Data ကို ယူပြီး ထည့်မှာလဲ ဆိုရင် default data ဖြစ်တဲ့ ညကိုးနာရီပေါ့။
        */
@@ -108,6 +112,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Thank Book'),
+        actions: [
+          IconButton(icon: Icon(Icons.search), onPressed: () async{
+            print("action Search onPressed");
+            showSearch(context: context, delegate: ThankSearchDelicate(thankNotes));
+          })
+        ],
       ),
       drawer: MainDrawer(),
       body: thankCardList(),
@@ -141,6 +151,12 @@ class _HomePageState extends State<HomePage> {
         );
       },
       itemBuilder: (BuildContext context, int index){
+          int descInt = (thankNotes[index].toMap()['description'].length > 150 ) ? 150 : thankNotes[index].toMap()['description'].length;
+          String description = thankNotes[index].toMap()['description'].substring(0,descInt)+ "...";
+
+          int locationInt = (thankNotes[index].toMap()['location'].length > 150 ) ? 150 : thankNotes[index].toMap()['location'].length;
+          String location = thankNotes[index].toMap()['location'].substring(0,locationInt) + "...";
+
           return Card(
             child: ListTile(
               // leading: IconButton(
@@ -151,8 +167,8 @@ class _HomePageState extends State<HomePage> {
               //   },
               // ),
               // leading: Icon(Icons.person,color: Colors.blueAccent,),
-              title: Text(thankNotes[index].toMap()['person']),
-              subtitle: Text(thankNotes[index].toMap()['description'] + "["+thankNotes[index].toMap()['location']+"]"),
+              title: Text(thankNotes[index].toMap()['person'], style: ThankTextStyle.textStyleListHeading,),
+              subtitle: Text(description + "["+location+"]", style: ThankTextStyle.textStyleListDesc),
 
               // trailing: IconButton(
               //   onPressed: () async {
@@ -245,6 +261,5 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-
 
 }

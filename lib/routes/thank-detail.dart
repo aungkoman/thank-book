@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:thank_book/data/thank-note.dart';
 import 'package:thank_book/routes/thank-form.dart';
+import 'package:thank_book/style/thank-text-style.dart';
 
 class ThankDetail extends StatefulWidget {
   static const String routeName = "/thank-detail";
@@ -50,9 +52,16 @@ class _ThankDetailState extends State<ThankDetail> {
   }
 
   Widget thankCardStack(){
-    return Center(
-      child: Center(
-        child: Text(thankNote.description)
+    return Container(
+      margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+      child: Card(
+          elevation: 20,
+          child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: Text(thankNote.description+ "["+thankNote.location+"]", style: ThankTextStyle.textStyleListDesc)
+              )
+          )
       ),
     );
   } // thankCardStack

@@ -82,6 +82,7 @@ initial value သတ်မှတ်ထားတာကတော့ အကော�
   }
 ```
 ဒီလို ရှင်းလိုက်တယ်။ warining ကတော့ ကျန်သေးတယ်။ ဒါပေမယ့် လိုချင်တဲ့ result ရပြီ။
+***update : null check box value ကို state ကြေညာကတည်းက default တစ်ခုနဲ့ ကြေညာပေးပြီး ဖြေရှင်းလိုက်တယ်***
 
 notification initialization အထိတော့ ရောက်လာပြီ။ တစ်ခု မှတ်ရမှာက Hot Reload ပဲ။ ဟုတ်ပါတယ် Hot Reload ဆိုတာ Flutter ရဲ့ selling point တွေထဲက တစ်ခုပါ။ နောက်ပြီး တကယ်လည်း မိုက်ပါတယ်။ တစ်ခုပဲ Major Changes တွေ လုပ်ပြီးတဲ့အခါမှာတော့ App ကို ထွက်ပြီးတော့ပဲ ဖြစ်ဖြစ် ကြိုးကို ဖြုတ်ပြီးတော့ပဲ ဖြစ်ဖြစ် ပြန် Build သင့်ပါတယ်။
  
@@ -129,9 +130,16 @@ Detail Route ထပ်ထည့်လိုက်တာ Navigator ကို ပ�
 ```dart
 Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
 ```
-```Navigator.of()``` ဆိုတာလေးက အသက်။ 
----
 
+```Navigator.of()``` ဆိုတာလေးက အသက်။ 
+
+#### Day-5 2020-11-11
+UI ပဲ ပြင်ရဆင်ရမယ်။ နာရီကို ပြတာမျိုး၊ နောက် ရက်စွဲ ဖြုတ်ထားလိုက်မယ်။ Thank Detail ကို သပ်သပ်ရပ်ရပ်ပြဖို့။ Thank Form မှာ delete ကို fab နဲ့ မထားပဲ ခလုပ်ပဲ လုပ်ထားမယ်။နာမည်စာရင်း ထုတ်ပေးထားတာ လိုမယ်။ auto complete နဲ့ ၊ search bar လိုမယ်။ location ဖြုတ်မယ်။  ဒါဆိုရပြီ။ Ads နဲ့ App Store တင်လို့ရပြီ။
+- search bar
+- name auto complete
+- name filter
+- date time (with ago calculation)
+---
 <html>
 <style>
 img{

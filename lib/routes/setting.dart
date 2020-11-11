@@ -27,7 +27,7 @@ class _SettingState extends State<Setting> {
 
   SharedPreferences sPref;
 
-  bool dailyNotificationStatus;
+  bool dailyNotificationStatus = true;
   DateTime dailyNotificationTime;
   @override
   void initState() {

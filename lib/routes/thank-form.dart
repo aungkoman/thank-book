@@ -6,6 +6,7 @@ import 'package:thank_book/data/notification-class.dart';
 import 'package:thank_book/data/thank-note-db.dart';
 import 'package:thank_book/data/thank-note.dart';
 import 'package:thank_book/routes/home-page.dart';
+import 'package:thank_book/style/thank-text-style.dart';
 
 class ThankForm extends StatefulWidget {
   static const String routeName = "/thank-form";
@@ -24,7 +25,7 @@ class _ThankFormState extends State<ThankForm> {
     'person' : '',
     'description' : '',
     'location' : '',
-    'reminder' : true,
+    'reminder' : false,
     'reminder_date' : null,
     'reminder_time' : null
   };
@@ -207,7 +208,7 @@ class _ThankFormState extends State<ThankForm> {
                       ),
                     ),
                     Visibility(
-                      visible: personMap['reminder'],
+                      visible: false, // personMap['reminder'],
                       child: Container(
                         margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
                         child: TextFormField(
@@ -312,7 +313,7 @@ class _ThankFormState extends State<ThankForm> {
                       ),
                     ),
 
-                    ElevatedButton(
+                    MaterialButton(
                         onPressed: () async {
                           print("id is "+ personMap['id'].toString());
                           if(_formKey.currentState.validate()){
@@ -364,7 +365,7 @@ class _ThankFormState extends State<ThankForm> {
                             print("inserted/updated Thank Note "+thankNote.toString());
                             if(thankNote.reminder == "true"){
                               // add zonedScheduled notification
-                              final DateTime day = DateTime.parse(thankNote.reminder_date);
+                              //final DateTime day = DateTime.parse(thankNote.reminder_date);
                               final DateTime time = DateTime.parse(thankNote.reminder_time);
                               notificationClass.scheduleDailyNotification(thankNote.id, time.hour, time.minute, title: thankNote.person, message: thankNote.description,payload: thankNote.description);
                               print("notification set ");
@@ -386,13 +387,48 @@ class _ThankFormState extends State<ThankForm> {
                             // Navigator.pop(context,thankNote);
                           }
                         },
-                        child: Text((initialData != null) ? "Update" : "+ Add")
+                        color: Colors.blue,
+                        child: Text((initialData != null) ? "Update" : "+ Add",style: TextStyle(color: Colors.white),)
+                    ),
+                    RaisedButton(
+                      color: Colors.red,
+                      onPressed: () async{
+                        // Navigator.pushNamed(context, HomePage.routeName);
+                        print("trailing onPressed");
+                        // Navigator.pop မှာက data pass လုပ်ပေးလို့ရတော့ စောင့်နေလိုက်မယ် :D :D :D
+                        bool comfirm = await showDialog(
+                          context: context,
+                          builder: (_) => comfirmDeleteDialog(),
+                          barrierDismissible: false,
+                        );
+                        print("comfirm is "+comfirm.toString());
+                        if(comfirm){
+                          ThankNote thankNoteDelete = ThankNote(
+                            id: personMap['id'],
+                            person: personMap['person'],
+                            description: personMap['description'],
+                            location: personMap['location'],
+                            reminder: personMap['reminder'].toString(),
+                            reminder_date: personMap['reminder_date'],
+                            reminder_time: personMap['reminder_time'],
+                          );
+                          var thankNote = await thankNoteDb.deleteThankNote(thankNoteDelete);
+                          if(thankNote != null){
+                          }
+                          else{
+                          Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
+                        }
+
+                        }
+                      },
+                      child: Text("Delete",style: TextStyle(color: Colors.white),),
                     )
                   ],
                 ),
               ),
             ),
       ),
+      /*
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.redAccent,
         onPressed: () async{
@@ -443,6 +479,8 @@ class _ThankFormState extends State<ThankForm> {
         },
         child: Icon(Icons.delete,),
       ),
+
+       */
     );
   }
 
