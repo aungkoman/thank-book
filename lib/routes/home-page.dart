@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thank_book/componets/main-drawer.dart';
 import 'package:thank_book/data/notification-class.dart';
@@ -11,11 +8,10 @@ import 'package:thank_book/data/thank-constant.dart';
 import 'package:thank_book/data/thank-note-db.dart';
 import 'package:thank_book/data/thank-note.dart';
 import 'package:thank_book/data/thank-search-delicate.dart';
-import 'package:thank_book/main.dart';
-import 'package:thank_book/routes/notification-receiver.dart';
+
 import 'package:thank_book/routes/thank-detail.dart';
 import 'package:thank_book/routes/thank-form.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:thank_book/style/thank-text-style.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,7 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
+  // AdmobBannerSize bannerSize;
+  // AdmobInterstitial interstitialAd;
+  // AdmobReward rewardAd;
   // final List<String> list = List.generate(10, (index) => "Text $index");
   final ThankNoteDb thankNoteDb = ThankNoteDb();
   List<ThankNote> thankNotes = [
@@ -38,12 +36,38 @@ class _HomePageState extends State<HomePage> {
   bool dailyNotificationStatus;
   DateTime dailyNotificationTime;
 
+  GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
+  // AdmobBannerSize bannerSize;
+  // AdmobInterstitial interstitialAd;
+  // AdmobReward rewardAd;
+
   @override
   void initState() {
     // TODO: implement initState
     print("HomePage initState");
     super.initState();
     initialize();
+
+    //bannerSize = AdmobBannerSize.BANNER;
+    //
+    // interstitialAd = AdmobInterstitial(
+    //   adUnitId: getInterstitialAdUnitId(),
+    //   listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+    //     if (event == AdmobAdEvent.closed) interstitialAd.load();
+    //     handleEvent(event, args, 'Interstitial');
+    //   },
+    // );
+    //
+    // rewardAd = AdmobReward(
+    //   adUnitId: getRewardBasedVideoAdUnitId(),
+    //   listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+    //     if (event == AdmobAdEvent.closed) rewardAd.load();
+    //     handleEvent(event, args, 'Reward');
+    //   },
+    // );
+    //
+    // interstitialAd.load();
+    // rewardAd.load();
 
   } // initState
 
@@ -110,6 +134,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldState,
       appBar: AppBar(
         title: Text('Thank Book'),
         actions: [

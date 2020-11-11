@@ -37,6 +37,7 @@ dependencies:
   device_info: ^0.4.2+4
   path_provider: ^1.6.7
   timezone: ^0.5.9
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:

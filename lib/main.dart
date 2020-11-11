@@ -44,6 +44,9 @@ Future<void> _configureLocalTimeZone() async {
 void main() async{
   WidgetsFlutterBinding.ensureInitialized(); // sqflite  ပဲ ဖြစ်ဖြစ် thirdparty package တွေ သုံးတဲ့အခါ
 
+
+  // Or add a list of test ids.
+  // Admob.initialize(testDeviceIds: ['YOUR DEVICE ID']);
   /* the following section is intended for local notification */
   // ဒေသစံတော်ချိန် ကိုက်ညီဖို့အတွက် Time Zone တွေ ပြင်ထားပေးရမယ် မဖြစ်မနေ
   await _configureLocalTimeZone();

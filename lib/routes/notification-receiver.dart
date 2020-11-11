@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thank_book/style/thank-text-style.dart';
 
 class NotificationReceiver extends StatefulWidget {
   final String payload;
@@ -34,9 +35,24 @@ class _NotificationReceiverState extends State<NotificationReceiver> {
         title: Text("Notification Receiver"),
       ),
       body: Center(
-        child: Text("Notificaiton Payload is "+_payload),
+        child: thankCardStack(),
       ),
 
     );
   }
+
+  Widget thankCardStack(){
+    return Container(
+      margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+      child: Card(
+          elevation: 20,
+          child: SingleChildScrollView(
+              child: Container(
+                  padding: EdgeInsets.all(20),
+                  child: Text(_payload, style: ThankTextStyle.textStyleListDesc)
+              )
+          )
+      ),
+    );
+  } // thankCardStack
 }

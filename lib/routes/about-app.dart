@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thank_book/data/open-facebook.dart';
 
 class AboutApp extends StatelessWidget {
   static const String routeName = "/about-app";
@@ -10,6 +11,10 @@ class AboutApp extends StatelessWidget {
       ),
       body: Center(
         child: Text("Thank Book is developed by MmSoftware100"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){ OpenFacebook.openFacebook();},
+        child: Icon(Icons.favorite),
       ),
     );
     /*

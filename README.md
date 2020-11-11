@@ -135,10 +135,17 @@ Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic
 
 #### Day-5 2020-11-11
 UI ပဲ ပြင်ရဆင်ရမယ်။ နာရီကို ပြတာမျိုး၊ နောက် ရက်စွဲ ဖြုတ်ထားလိုက်မယ်။ Thank Detail ကို သပ်သပ်ရပ်ရပ်ပြဖို့။ Thank Form မှာ delete ကို fab နဲ့ မထားပဲ ခလုပ်ပဲ လုပ်ထားမယ်။နာမည်စာရင်း ထုတ်ပေးထားတာ လိုမယ်။ auto complete နဲ့ ၊ search bar လိုမယ်။ location ဖြုတ်မယ်။  ဒါဆိုရပြီ။ Ads နဲ့ App Store တင်လို့ရပြီ။
-- search bar
-- name auto complete
-- name filter
-- date time (with ago calculation)
+- [x] search bar
+- [ ] name auto complete
+- [ ] name filter
+- [ ] date time (with ago calculation)
+
+Search Bar တော့ အိုကေသလောက်ရှိသွားပြီ။
+Text Style ဖတ်ဖြစ်တယ်။
+Button Style ကတော့ အဆင်မပြေ။ ဖတ်ရတာ စိတ်မရှည်တော့။ ပြီးခါနီးဆို ဒီအတိုင်းပါပဲ။ ခပ်မြန်မြန်ပဲ လက်စသပ်ချင်နေပြီ။ :+1:
+ကျန်တဲ့ data flow တွေ ပြန်ပြင်ထားတယ်။
+- [ ] FCM
+- [x] Facebook Page open
 ---
 <html>
 <style>

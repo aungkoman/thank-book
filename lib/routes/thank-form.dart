@@ -394,7 +394,7 @@ class _ThankFormState extends State<ThankForm> {
                       color: Colors.red,
                       onPressed: () async{
                         // Navigator.pushNamed(context, HomePage.routeName);
-                        print("trailing onPressed");
+                        print("delete thank onPressed");
                         // Navigator.pop မှာက data pass လုပ်ပေးလို့ရတော့ စောင့်နေလိုက်မယ် :D :D :D
                         bool comfirm = await showDialog(
                           context: context,
@@ -413,11 +413,14 @@ class _ThankFormState extends State<ThankForm> {
                             reminder_time: personMap['reminder_time'],
                           );
                           var thankNote = await thankNoteDb.deleteThankNote(thankNoteDelete);
-                          if(thankNote != null){
-                          }
-                          else{
                           Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
-                        }
+                          //
+                          // if(thankNote != null){
+                          //   Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
+                          // }
+                          // else{
+                          //   Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
+                          // }
 
                         }
                       },
