@@ -393,7 +393,7 @@ class _HomePageState extends State<HomePage> {
     if (Platform.isIOS) {
       return 'ca-app-pub-3940256099942544/2934735716';
     } else if (Platform.isAndroid) {
-      return 'ca-app-pub-3940256099942544/6300978111';
+      return 'ca-app-pub-7499955469448445/8545286423';
     }
     return null;
   }
@@ -402,7 +402,7 @@ class _HomePageState extends State<HomePage> {
     if (Platform.isIOS) {
       return 'ca-app-pub-3940256099942544/4411468910';
     } else if (Platform.isAndroid) {
-      return 'ca-app-pub-3940256099942544/1033173712';
+      return 'ca-app-pub-7499955469448445/5685482505';
     }
     return null;
   }
@@ -411,7 +411,7 @@ class _HomePageState extends State<HomePage> {
     if (Platform.isIOS) {
       return 'ca-app-pub-3940256099942544/1712485313';
     } else if (Platform.isAndroid) {
-      return 'ca-app-pub-3940256099942544/5224354917';
+      return 'ca-app-pub-7499955469448445/5106403168';
     }
     return null;
   }
