@@ -1,12 +1,4 @@
 
-<html>
-<style>
-img{
-  width : 150px;
-  margin-left : 20px;
-  float : left;
-}
-</style>
 # Thank Book
 ဒါကတော့ Thank Book ကို Flutter နဲ့ ပြန်ရေးထားတာပါ။
 Flutter လည်း ဖတ်ရင်း၊ App လည်း လူလူသူသူဖြစ်အောင်လုပ်ရင်းပေါ့ဗျာ။ 
@@ -202,6 +194,15 @@ Ref => https://stackoverflow.com/questions/49886597/multidex-issue-with-flutter
 - [x] Admob အပါ Playstore ပေါ် release v1.0.4+4 တင်ပြီး။
 ---
 
+
+![](https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png | width=100)
+
+![](https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png =250x250)
+
+ | width=100
+![title](readme/images/app_screenshots/screenshot1.png | width=100)
+
+
 ![title](readme/images/app_screenshots/screenshot1.png)
 
 
@@ -231,4 +232,3 @@ Ref => https://stackoverflow.com/questions/49886597/multidex-issue-with-flutter
 
 ![title](readme/images/app_screenshots/screenshot(10).png)
 
-</html>
