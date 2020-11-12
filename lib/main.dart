@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -44,7 +45,7 @@ Future<void> _configureLocalTimeZone() async {
 void main() async{
   WidgetsFlutterBinding.ensureInitialized(); // sqflite  ပဲ ဖြစ်ဖြစ် thirdparty package တွေ သုံးတဲ့အခါ
 
-
+  Admob.initialize();
   // Or add a list of test ids.
   // Admob.initialize(testDeviceIds: ['YOUR DEVICE ID']);
   /* the following section is intended for local notification */

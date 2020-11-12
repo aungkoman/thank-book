@@ -390,8 +390,8 @@ class _ThankFormState extends State<ThankForm> {
                         color: Colors.blue,
                         child: Text((initialData != null) ? "Update" : "+ Add",style: TextStyle(color: Colors.white),)
                     ),
-                    RaisedButton(
-                      color: Colors.red,
+                    TextButton(
+                      //color: Colors.red,
                       onPressed: () async{
                         // Navigator.pushNamed(context, HomePage.routeName);
                         print("delete thank onPressed");
@@ -424,7 +424,7 @@ class _ThankFormState extends State<ThankForm> {
 
                         }
                       },
-                      child: Text("Delete",style: TextStyle(color: Colors.white),),
+                      child: Text("Delete",style: TextStyle(color: Colors.grey),),
                     )
                   ],
                 ),

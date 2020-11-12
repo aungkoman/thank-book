@@ -136,8 +136,8 @@ Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic
 #### Day-5 2020-11-11
 UI ပဲ ပြင်ရဆင်ရမယ်။ နာရီကို ပြတာမျိုး၊ နောက် ရက်စွဲ ဖြုတ်ထားလိုက်မယ်။ Thank Detail ကို သပ်သပ်ရပ်ရပ်ပြဖို့။ Thank Form မှာ delete ကို fab နဲ့ မထားပဲ ခလုပ်ပဲ လုပ်ထားမယ်။နာမည်စာရင်း ထုတ်ပေးထားတာ လိုမယ်။ auto complete နဲ့ ၊ search bar လိုမယ်။ location ဖြုတ်မယ်။  ဒါဆိုရပြီ။ Ads နဲ့ App Store တင်လို့ရပြီ။
 - [x] search bar
-- [ ] name auto complete
-- [ ] name filter
+- [x] ~~name auto complete~~ Search Bar မှာ အကုန်ရပြီ
+- [x] ~~name filter~~ Search Bar မှာ အကုန်ရပြီ
 - [ ] date time (with ago calculation)
 
 Search Bar တော့ အိုကေသလောက်ရှိသွားပြီ။
@@ -145,7 +145,48 @@ Text Style ဖတ်ဖြစ်တယ်။
 Button Style ကတော့ အဆင်မပြေ။ ဖတ်ရတာ စိတ်မရှည်တော့။ ပြီးခါနီးဆို ဒီအတိုင်းပါပဲ။ ခပ်မြန်မြန်ပဲ လက်စသပ်ချင်နေပြီ။ :+1:
 ကျန်တဲ့ data flow တွေ ပြန်ပြင်ထားတယ်။
 - [ ] FCM
-- [x] Facebook Page open
+- [x] Facebook Page open 
+- [x] Playstore ပေါ် တင်ပြီး
+ 
+ Admob ထည့်တော့ Multidex Error တက်တယ်။ လိုက်ဖတ်ကြည့်တော့ (စိတ်ကတော့ သိပ်မရှည်တော့ပြီ) Android မှာ Method ပေါင်း ၆၄၀၀၀ လား မသိ အဲ့သလောက် အများကြီးကို dex file တစ်ခုတည်းက ခေါ်လို့ မရဘူးပေါ့ (ဒါက Android 5 နဲ့ အရှေ့ကကောင်တွေရဲ့ limit နောက်ပိုင်းမှာတော့ multi dex ကို default enable လုပ်ပေးထားတယ် ပြောတယ်။) ထားတော့။ ဒီတော့ စဉ်းစားကြည့်ရင် ကိုယ်လည်း အဲ့သလောက် method အများကြီး ရေးပြီး ခေါ်မထားတာ သေချာတယ်။ ဒီတော့ ကိုယ်သုံးထားတဲ့ dependency တွေက အချင်းချင်းခေါ်နေရင်း ဒီလောက် များသွားတာ ဖြစ်မယ်။ 
+  
+Admob ကို ပြန်ဖြုတ်ချတော့ အဆင်ပြေသွားတယ်။ ဒီအတိုင်းပဲ Playstore ပေါ် တင်ပေးလိုက်တယ်။ စိတ်ကတော့ သိပ်မကြည်။
+
+#### Day-6 2020-11-12
+- [x] Multi Dex Fixed
+ 
+မနက်ပိုင်း စိတ်က မပျက်နိုင်သေးတော့ Multi Dex အကြောင်းပြန်ဖတ်ကြည့်တယ်။ အရိုးရှင်းဆုံးကတော့ Android Min SDK ကို 21 ကို ပြောင်းလိုက်တာပဲ။ အဲ့သလိုလည်း မလုပ်ချင်။ 100% run ချင်တာ ဆိုတော့ကာ။
+ 
+ Multi Dex Enable လုပ်တာကလည်း ရှင်းပါတယ် ( စိတ်အေးအေး ထားပြီး သေချာဖတ်ကြည့်တော့ :D  )
+  
+##### How to enable multidex for flutter project.
+
+Enable multidex.
+Open project/app/build.gradle and add following lines.
+
+```java
+defaultConfig {
+    ...
+
+    multiDexEnabled true
+}
+```
+and
+```java
+dependencies {
+    ...
+
+    implementation 'com.android.support:multidex:1.0.3'
+}
+```
+Enable Jetifier.
+Open project/android/app/gradle.properties and add following lines.
+```properties
+android.useAndroidX=true
+android.enableJetifier=true
+```
+Enable လုပ်ပြီး admob ပြန်ထည့်တော့ အဆင်ပြေသွားတယ် :+1::+1:
+
 ---
 <html>
 <style>

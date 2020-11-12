@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,9 +24,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // AdmobBannerSize bannerSize;
-  // AdmobInterstitial interstitialAd;
-  // AdmobReward rewardAd;
+  AdmobBannerSize bannerSize;
+  AdmobInterstitial interstitialAd;
+  AdmobReward rewardAd;
   // final List<String> list = List.generate(10, (index) => "Text $index");
   final ThankNoteDb thankNoteDb = ThankNoteDb();
   List<ThankNote> thankNotes = [
@@ -41,6 +44,10 @@ class _HomePageState extends State<HomePage> {
   // AdmobInterstitial interstitialAd;
   // AdmobReward rewardAd;
 
+
+  bool bannerShow = true;
+  int isInitialize = 0;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -48,26 +55,27 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     initialize();
 
-    //bannerSize = AdmobBannerSize.BANNER;
-    //
-    // interstitialAd = AdmobInterstitial(
-    //   adUnitId: getInterstitialAdUnitId(),
-    //   listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-    //     if (event == AdmobAdEvent.closed) interstitialAd.load();
-    //     handleEvent(event, args, 'Interstitial');
-    //   },
-    // );
-    //
-    // rewardAd = AdmobReward(
-    //   adUnitId: getRewardBasedVideoAdUnitId(),
-    //   listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-    //     if (event == AdmobAdEvent.closed) rewardAd.load();
-    //     handleEvent(event, args, 'Reward');
-    //   },
-    // );
-    //
-    // interstitialAd.load();
-    // rewardAd.load();
+    isInitialize++;
+    bannerSize = AdmobBannerSize.BANNER;
+
+    interstitialAd = AdmobInterstitial(
+      adUnitId: getInterstitialAdUnitId(),
+      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        if (event == AdmobAdEvent.closed) interstitialAd.load();
+        handleEvent(event, args, 'Interstitial');
+      },
+    );
+
+    rewardAd = AdmobReward(
+      adUnitId: getRewardBasedVideoAdUnitId(),
+      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        if (event == AdmobAdEvent.closed) rewardAd.load();
+        handleEvent(event, args, 'Reward');
+      },
+    );
+
+    interstitialAd.load();
+    rewardAd.load();
 
   } // initState
 
@@ -145,7 +153,40 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: MainDrawer(),
-      body: thankCardList(),
+      body: Column(children: [
+          Expanded(child: thankCardList()),
+          Text("hello"),
+        Visibility(
+          visible: bannerShow,
+          child: Container(
+            // margin: EdgeInsets.only(bottom: 20.0),
+            child: AdmobBanner(
+              adUnitId: getBannerAdUnitId(),
+              adSize: bannerSize,
+              listener: (AdmobAdEvent event,Map<String, dynamic> args) {
+                print("listener AdmobAdEvent");
+                handleEvent(event, args, 'Banner');
+              },
+              onBannerCreated:
+                  (AdmobBannerController controller) {
+                print("onBannerCreated");
+                if(isInitialize == 1){
+                  isInitialize++;
+                  setState(() {
+                    bannerShow = false;
+                  });
+                }
+
+                // Dispose is called automatically for you when Flutter removes the banner from the widget tree.
+                // Normally you don't need to worry about disposing this yourself, it's handled.
+                // If you need direct access to dispose, this is your guy!
+                // controller.dispose();
+              },
+            ),
+          ),
+        ),
+        ]
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           print("fab onPresssed at HomePage");
@@ -230,6 +271,9 @@ class _HomePageState extends State<HomePage> {
               // ),
               onTap: () async{
                 print("listTile onTap "+thankNotes[index].toMap()['id'].toString());
+                print("int r is "+(isInitialize % 2).toString());
+                (isInitialize % 2 == 0 ) ?  showIntersittialAd() : showRewardAd();
+                isInitialize++;
                 Navigator.pushNamed(context, ThankDetail.routeName,arguments: thankNotes[index]);
               },
             ),
@@ -287,4 +331,113 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void handleEvent(
+      AdmobAdEvent event, Map<String, dynamic> args, String adType) {
+    switch (event) {
+      case AdmobAdEvent.loaded:
+        setState(() {
+          bannerShow = true;
+        });
+        print('New Admob $adType Ad loaded!');
+        //showSnackBar('New Admob $adType Ad loaded!');
+        break;
+      case AdmobAdEvent.opened:
+        print('Admob $adType Ad opened!');
+        //showSnackBar('Admob $adType Ad opened!');
+        break;
+      case AdmobAdEvent.closed:
+        print('Admob $adType Ad closed!');
+        //showSnackBar('Admob $adType Ad closed!');
+        break;
+      case AdmobAdEvent.failedToLoad:
+        print('Admob $adType failed to load. :(');
+        //showSnackBar('Admob $adType failed to load. :(');
+        break;
+      case AdmobAdEvent.rewarded:
+        print('Admob rewared');
+        // showDialog(
+        //   context: scaffoldState.currentContext,
+        //   builder: (BuildContext context) {
+        //     return WillPopScope(
+        //       child: AlertDialog(
+        //         content: Column(
+        //           mainAxisSize: MainAxisSize.min,
+        //           children: <Widget>[
+        //             Text('Reward callback fired. Thanks Andrew!'),
+        //             Text('Type: ${args['type']}'),
+        //             Text('Amount: ${args['amount']}'),
+        //           ],
+        //         ),
+        //       ),
+        //       onWillPop: () async {
+        //         scaffoldState.currentState.hideCurrentSnackBar();
+        //         return true;
+        //       },
+        //     );
+        //   },
+        // );
+        break;
+      default:
+    }
+  }
+
+  void showSnackBar(String content) {
+    scaffoldState.currentState.showSnackBar(
+      SnackBar(
+        content: Text(content),
+        duration: Duration(milliseconds: 1500),
+      ),
+    );
+  }
+
+  String getBannerAdUnitId() {
+    if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/2934735716';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-3940256099942544/6300978111';
+    }
+    return null;
+  }
+
+  String getInterstitialAdUnitId() {
+    if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/4411468910';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-3940256099942544/1033173712';
+    }
+    return null;
+  }
+
+  String getRewardBasedVideoAdUnitId() {
+    if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/1712485313';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-3940256099942544/5224354917';
+    }
+    return null;
+  }
+
+
+  Future<void> showIntersittialAd() async{
+    if (await interstitialAd.isLoaded) {
+      interstitialAd.show();
+      //return true;
+    } else {
+      print('Interstitial ad is still loading...');
+      // showSnackBar('Interstitial ad is still loading...');
+      // return false;
+    }
+  }
+
+  Future<void> showRewardAd() async {
+    if (await rewardAd.isLoaded) {
+      rewardAd.show();
+    } else {
+      // showSnackBar('Reward ad is still loading...');
+      print('Reward ad is still loading...');
+    }
+  }
 }
+
+
+
