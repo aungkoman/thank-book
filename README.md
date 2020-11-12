@@ -1,3 +1,12 @@
+
+<html>
+<style>
+img{
+  width : 150px;
+  margin-left : 20px;
+  float : left;
+}
+</style>
 # Thank Book
 ဒါကတော့ Thank Book ကို Flutter နဲ့ ပြန်ရေးထားတာပါ။
 Flutter လည်း ဖတ်ရင်း၊ App လည်း လူလူသူသူဖြစ်အောင်လုပ်ရင်းပေါ့ဗျာ။ 
@@ -187,16 +196,11 @@ android.enableJetifier=true
 ```
 Enable လုပ်ပြီး admob ပြန်ထည့်တော့ အဆင်ပြေသွားတယ် :+1::+1:
 
+Ref => https://stackoverflow.com/questions/49886597/multidex-issue-with-flutter
+
+- [ ] Hot Reload က laptop မှာ Ctrl+S နှိပ်ရင် မရတော့ဘူး။ ပြန်လိုက်ရှင်းရဉီးမယ်။
+- [x] Admob အပါ Playstore ပေါ် release v1.0.4+4 တင်ပြီး။
 ---
-<html>
-<style>
-img{
-  width : 150px;
-  margin-left : 20px;
-  float : left;
-}
-</style>
-</html>
 
 ![title](readme/images/app_screenshots/screenshot1.png)
 
@@ -226,3 +230,5 @@ img{
  
 
 ![title](readme/images/app_screenshots/screenshot(10).png)
+
+</html>
