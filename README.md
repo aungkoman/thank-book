@@ -195,12 +195,7 @@ Ref => https://stackoverflow.com/questions/49886597/multidex-issue-with-flutter
 ---
 
 
-![](https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png | width=100)
-
-![](https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png =250x250)
-
- | width=100
-![title](readme/images/app_screenshots/screenshot1.png | width=100)
+![title](readme/images/app_screenshots/screenshot1.png)![title](readme/images/app_screenshots/screenshot1.png)
 
 
 ![title](readme/images/app_screenshots/screenshot1.png)
