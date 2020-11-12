@@ -195,35 +195,5 @@ Ref => https://stackoverflow.com/questions/49886597/multidex-issue-with-flutter
 ---
 
 
-![title](readme/images/app_screenshots/screenshot1.png)![title](readme/images/app_screenshots/screenshot1.png)
-
-
-![title](readme/images/app_screenshots/screenshot1.png)
-
-
-![title](readme/images/app_screenshots/screenshot2.png)
- 
-
-![title](readme/images/app_screenshots/screenshot(3).png)
- 
-
-![title](readme/images/app_screenshots/screenshot(4).png)
- 
-
-![title](readme/images/app_screenshots/screenshot(5).png)
- 
-
-![title](readme/images/app_screenshots/screenshot(6).png)
- 
-
-![title](readme/images/app_screenshots/screenshot(7).png)
- 
-
-![title](readme/images/app_screenshots/screenshot(8).png)
- 
-
-![title](readme/images/app_screenshots/screenshot(9).png)
- 
-
-![title](readme/images/app_screenshots/screenshot(10).png)
+![title](readme/images/app_screenshots/screenshot1.png) ![title](readme/images/app_screenshots/screenshot1.png) ![title](readme/images/app_screenshots/screenshot1.png)    ![title](readme/images/app_screenshots/screenshot2.png) ![title](readme/images/app_screenshots/screenshot(3).png) ![title](readme/images/app_screenshots/screenshot(4).png) ![title](readme/images/app_screenshots/screenshot(5).png) ![title](readme/images/app_screenshots/screenshot(6).png) ![title](readme/images/app_screenshots/screenshot(7).png) ![title](readme/images/app_screenshots/screenshot(8).png) ![title](readme/images/app_screenshots/screenshot(9).png) ![title](readme/images/app_screenshots/screenshot(10).png)
 
