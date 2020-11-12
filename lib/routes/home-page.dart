@@ -155,7 +155,6 @@ class _HomePageState extends State<HomePage> {
       drawer: MainDrawer(),
       body: Column(children: [
           Expanded(child: thankCardList()),
-          Text("hello"),
         Visibility(
           visible: bannerShow,
           child: Container(
